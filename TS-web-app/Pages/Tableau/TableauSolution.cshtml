@@ -1,0 +1,25 @@
+﻿@page
+@using TableauxIO
+@model TableauSolutionModel
+@{
+    ViewData["Title"] = "TableauSolution";
+}
+
+<h2>TableauSolution - Loading</h2>
+
+<form asp-page="/Tableau/TableauRequest" method="post" id="cross-posting-form">
+
+    @for (var i = 0; i < Model.ErrorResponseForm.FormulaParseRequests.Count; ++i) {
+
+        var isTrue = (Model.ErrorResponseForm.FormulaParseRequests[i].RawFormula.TruthLabel == TruthValue.True) ? '1' : '0';
+
+        <input type="hidden" name="Formula[@Html.Encode(i)]" value="@Html.Encode(Model.ErrorResponseForm.FormulaParseRequests[i].RawFormula.Formula)" />
+        <input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)" />
+        <input type="hidden" name="ErrorResponse[@Html.Encode(i)]" value="@Html.Encode(Model.ErrorResponseForm.FormulaParseRequests[i].ErrorResponse)">
+    }
+
+</form>
+
+<script type="text/javascript">
+    document.getElementById("cross-posting-form").submit();
+</script>

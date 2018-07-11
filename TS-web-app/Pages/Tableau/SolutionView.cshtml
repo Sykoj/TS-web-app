@@ -1,0 +1,20 @@
+﻿@page
+@model SolutionViewModel
+@{
+    ViewData["Title"] = "SolutionView";
+}
+
+<h2>SolutionView</h2>
+
+<table>
+    <tr>
+        <th><b>Formula</b></th>
+        <th><b>Truth label</b></th>
+    </tr>
+    @foreach (var formula in Model.TableauRequest.RawFormulas) {
+        <tr>
+            <td>@Html.Encode(formula.Formula)</td>
+            <td>@Html.Encode(formula.TruthLabel)</td>
+        </tr>
+    }
+</table>

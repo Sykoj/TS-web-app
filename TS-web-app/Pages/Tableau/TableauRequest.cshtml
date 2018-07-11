@@ -1,0 +1,126 @@
+﻿@page
+@using TableauxIO
+@model TableauRequestModel
+@{
+    ViewData["Title"] = "Tableau Request Form";
+}
+
+<form asp-page="/Tableau/TableauSolution" method="post">
+    <h4>Set input for tableau solver</h4>
+    <div>
+        <table id="container">
+            <tr>
+                <th>Formula</th>
+                <th>Truth value</th>
+                <th></th>
+                <th>Parser error message</th>
+            </tr>
+
+            @for (var i = 0; i < Model.FormulaParseRequests.Count; ++i) {
+
+                var isTrue = (Model.FormulaParseRequests[i].RawFormula.TruthLabel == TruthValue.True) ? '1' : '0';
+
+                <tr>
+                    <td><input class="text-box single-line" name="Formula[@Html.Encode(i)]" type="text" value="@Html.Encode(Model.FormulaParseRequests[i].RawFormula.Formula)" onchange="eraseErrorResponse(@Html.Encode(i))"></td>
+                    <td><input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)"><input type="checkbox" onclick="this.previousSibling.value = 1 - this.previousSibling.value" @if (isTrue == '1') {
+                                                                                                                                                                                                              @Html.Encode("checked = 'checked'")
+                                                                                                                                                                                                          }></td>
+                    <td><input type="button" value="Remove formula" onclick="deleteRow(this.parentNode.parentNode)"/></td>
+                    <td><input type="text" name="ErrorResponse[@Html.Encode(i)]" value="@Html.Encode(Model.FormulaParseRequests[i].ErrorResponse)" readonly="readonly"></td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+    <p><input type="button" id="addFormula" value="Add new tableau formula" onclick="addField();"/></p>
+    <p><input type="submit" value="Solve"/></p>
+</form>
+
+<script type="text/javascript">
+    function eraseErrorResponse(index) {
+
+        var errorResponse = document.getElementsByName("ErrorResponse[" + index + "]");
+        errorResponse[0].setAttribute("value", "");
+    }
+</script>
+
+<script type="text/javascript">
+    function deleteRow(row) {
+
+        var index = row.rowIndex;
+
+        var table = document.getElementById("container");
+
+        if (table.rows.length > 2) {
+
+            for (var i = index + 1; i < table.rows.length; ++i) {
+                updateIndex(i - 2, table.rows[i]);
+            }
+
+            table.deleteRow(index);
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    function updateIndex(index, element) {
+
+        element.children[0].firstChild.setAttribute("name", "Formula[" + index + "]");
+
+        element.children[0].firstChild.setAttribute("onchange", "eraseErrorMessage(" + index + ")");
+
+        element.children[1].firstChild.setAttribute("name", "TruthLabel[" + index + "]");
+
+        element.children[3].firstChild.setAttribute("name", "ErrorResponse[" + index + "]");
+    }
+</script>
+
+<script type="text/javascript">
+    function addField(argument) {
+
+        var myTable = document.getElementById("container");
+        var currentIndex = myTable.rows.length;
+        var currentRow = myTable.insertRow(-1);
+
+        var linksBox = document.createElement("input");
+        linksBox.setAttribute("class", "text-box single-line");
+        linksBox.setAttribute("name", "Formula[" + (currentIndex - 1) + "]");
+        linksBox.setAttribute("type", "text");
+        linksBox.setAttribute("onchange", "eraseErrorResponse(" + (currentIndex - 1) + ")");
+        linksBox.setAttribute("value", "");
+
+        var hiddenBox = document.createElement("input");
+        hiddenBox.setAttribute("type", "hidden");
+        hiddenBox.setAttribute("name", "TruthLabel[" + (currentIndex - 1) + "]");
+        hiddenBox.setAttribute("value", "0");
+
+        var keywordsBox = document.createElement("input");
+        keywordsBox.setAttribute("type", "checkbox");
+        keywordsBox.setAttribute("onclick", "this.previousSibling.value = 1 - this.previousSibling.value");
+
+        var removeFormula = document.createElement("input");
+        removeFormula.setAttribute("type", "button");
+        removeFormula.setAttribute("value", "Remove formula");
+        removeFormula.setAttribute("onclick", "deleteRow(this.parentNode.parentNode)");
+
+        var errorResponse = document.createElement("input");
+        errorResponse.setAttribute("type", "text");
+        errorResponse.setAttribute("name", "ErrorResponse[" + (currentIndex - 1)+ "]");
+        errorResponse.setAttribute("value", "");
+        errorResponse.setAttribute("readonly", "readonly");
+
+        var currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(linksBox);
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(hiddenBox);
+        currentCell.appendChild(keywordsBox);
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(removeFormula);
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(errorResponse);
+    }
+</script>
