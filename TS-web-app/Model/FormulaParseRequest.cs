@@ -5,7 +5,8 @@ namespace TsWebApp.Model {
 
     public class UnparsedTableauInput {
         
-        public IList<FormulaParseRequest> FormulaParseRequests { get; set; } = new List<FormulaParseRequest>();
+        public IList<FormulaParseRequest> FormulaParseRequests { get; set; } 
+            = new List<FormulaParseRequest>();
 
         public bool HasAtleastOneParseRequest() {
             return FormulaParseRequests.Count != 0;
@@ -21,7 +22,7 @@ namespace TsWebApp.Model {
 
     public class FormulaParseRequest {
 
-        public RawFormula RawFormula { get; set; } = new RawFormula();
+        public UnparsedTableauNode UnparsedTableauNode { get; set; } = new UnparsedTableauNode();
         public string ErrorResponse { get; set; } = string.Empty;
     }
 }

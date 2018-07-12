@@ -53,7 +53,7 @@ namespace TsWebApp {
 
             services.AddSingleton<ITableauSolver, TableauSolver>();
             services.AddSingleton<IFormulaParser, FormulaParser>();
-            services.AddSingleton<EventService>();
+            services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
 

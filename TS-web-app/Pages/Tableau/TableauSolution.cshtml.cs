@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using TsWebApp.Exceptions;
 using TsWebApp.Model;
 using TsWebApp.Services;
@@ -40,8 +42,9 @@ namespace TsWebApp.Pages.Tableau {
                 }
                 
                 var tableauSolution = TableauSolverService.SolveTableauInput(tableauInput);
-                Task.Run(() => EventService.LogSolutionEvent(tableauInput, tableauSolution, HttpContext.User));
-                return RedirectToPage("SolutionView", new { session = HttpContext.Session.Id });
+                HttpContext.Session.SetString(HttpContext.Session.Id, JsonConvert.SerializeObject(tableauSolution.SolutionNode));
+                var result = EventService.LogSolutionEvent(unparsedTableauInput, tableauSolution, HttpContext.User);
+                return RedirectToPage("SolutionView", new { id = result.Id, session = HttpContext.Session.Id });
             }
             catch (FormResolverException) {
                 return RedirectToPage("../Error");

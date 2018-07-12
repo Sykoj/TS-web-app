@@ -25,7 +25,7 @@ namespace TsWebApp.Services {
                 from row in formRows
                 let formulaParseRequest = new FormulaParseRequest() {
                     ErrorResponse = row.ErrorResponse,
-                    RawFormula = new RawFormula() {Formula = row.Formula, TruthLabel = row.TruthLabel}
+                    UnparsedTableauNode = new UnparsedTableauNode() {Formula = row.Formula, TruthLabel = row.TruthLabel}
                 }
                 select formulaParseRequest;
 

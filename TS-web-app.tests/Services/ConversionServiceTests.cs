@@ -18,7 +18,7 @@ namespace TsWebApp.tests.Services {
                 FormulaParseRequests = new List<FormulaParseRequest>() {
                     new FormulaParseRequest() {
 
-                        RawFormula = new RawFormula() {
+                        UnparsedTableauNode = new UnparsedTableauNode() {
                             Formula = "p IMP q",
                             TruthLabel = TruthValue.False
                         }
@@ -31,14 +31,14 @@ namespace TsWebApp.tests.Services {
                 FormulaParseRequests = new List<FormulaParseRequest>() {
                     new FormulaParseRequest() {
 
-                        RawFormula = new RawFormula() {
+                        UnparsedTableauNode = new UnparsedTableauNode() {
                             Formula = "p IMP q",
                             TruthLabel = TruthValue.False
                         }
                     },
                     new FormulaParseRequest() {
 
-                        RawFormula = new RawFormula() {
+                        UnparsedTableauNode = new UnparsedTableauNode() {
                             Formula = "p IMP q",
                             TruthLabel = TruthValue.True
                         }
@@ -51,14 +51,14 @@ namespace TsWebApp.tests.Services {
                 FormulaParseRequests = new List<FormulaParseRequest>() {
                     new FormulaParseRequest() {
 
-                        RawFormula = new RawFormula() {
+                        UnparsedTableauNode = new UnparsedTableauNode() {
                             Formula = "p IMP q",
                             TruthLabel = TruthValue.True
                         }
                     },
                     new FormulaParseRequest() {
 
-                        RawFormula = new RawFormula() {
+                        UnparsedTableauNode = new UnparsedTableauNode() {
                             Formula = "p IMP q",
                             TruthLabel = TruthValue.True
                         }
@@ -120,7 +120,8 @@ namespace TsWebApp.tests.Services {
             var conversionService = new ConversionService(formulaParser.Object);
             var (tableauInput, errorResponse) = conversionService.ParseTableauInput(_inputTwoFormulas);
 
-            Assert.IsTrue(errorResponse.HasErrorResponse() && errorResponse.FormulaParseRequests.Count == 2);
+            Assert.IsTrue(errorResponse.HasErrorResponse());
+            Assert.IsTrue(errorResponse.FormulaParseRequests.Count == 2);
         }
 
         [TestMethod]
@@ -140,15 +141,6 @@ namespace TsWebApp.tests.Services {
 
         [TestMethod]
         [TestCategory("ParseTableauInput")]
-        public void DuplicitFormulasShouldNotBeEqual() {
-
-            var f = _inputDuplicitFormulas.FormulaParseRequests[0].RawFormula;
-            var c = _inputDuplicitFormulas.FormulaParseRequests[1].RawFormula;
-            Assert.IsFalse(f.Equals(c));
-        }
-
-        [TestMethod]
-        [TestCategory("ParseTableauInput")]
         public void ParserCorrectlyToTableauInput() {
 
             var formulaParser = new Mock<IFormulaParser>();
@@ -163,8 +155,8 @@ namespace TsWebApp.tests.Services {
 
             Assert.AreEqual(new VariableFormula('a'), tableauInput.Root.Item1);
             Assert.AreEqual(new VariableFormula('b'), tableauInput.TheoryAxioms[0].Item1);
-            Assert.AreEqual(tableauInput.Root.Item2, _inputTwoFormulas.FormulaParseRequests[0].RawFormula.TruthLabel);
-            Assert.AreEqual(tableauInput.TheoryAxioms[0].Item2, _inputTwoFormulas.FormulaParseRequests[1].RawFormula.TruthLabel);
+            Assert.AreEqual(tableauInput.Root.Item2, _inputTwoFormulas.FormulaParseRequests[0].UnparsedTableauNode.TruthLabel);
+            Assert.AreEqual(tableauInput.TheoryAxioms[0].Item2, _inputTwoFormulas.FormulaParseRequests[1].UnparsedTableauNode.TruthLabel);
 
             Assert.IsTrue(!errorResponse.HasErrorResponse());
         }

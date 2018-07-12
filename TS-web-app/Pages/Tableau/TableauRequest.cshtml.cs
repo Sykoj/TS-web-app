@@ -5,15 +5,23 @@ using Microsoft.Extensions.Primitives;
 using TableauxIO;
 using TsWebApp.Exceptions;
 using TsWebApp.Model;
+using TsWebApp.Services;
 
 namespace TsWebApp.Pages.Tableau {
     public class TableauRequestModel : PageModel {
+
         public IList<FormulaParseRequest> FormulaParseRequests { get; set; }
+
+        private FormResolver FormResolver { get; set; }
+
+        public TableauRequestModel(FormResolver formResolver) {
+            FormResolver = formResolver;
+        }
 
         public void OnGet() {
 
             var initialRequest = new FormulaParseRequest() {
-                RawFormula = new RawFormula() { Formula = string.Empty, TruthLabel = TruthValue.True },
+                UnparsedTableauNode = new UnparsedTableauNode() { Formula = string.Empty, TruthLabel = TruthValue.True },
                 ErrorResponse = string.Empty
             };
 
@@ -23,7 +31,7 @@ namespace TsWebApp.Pages.Tableau {
         }
         public void OnPost() {
             
-           // FormulaParseRequests = FormResolver.ResolveFormulas(HttpContext.Request.Form);
+           FormulaParseRequests = FormResolver.ResolveForm(HttpContext.Request.Form).FormulaParseRequests;
         }
     }
 

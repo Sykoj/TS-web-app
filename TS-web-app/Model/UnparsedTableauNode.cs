@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using TableauxIO;
 
 namespace TsWebApp.Model {
-    public class RawFormula {
+
+    public class UnparsedTableauNode {
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

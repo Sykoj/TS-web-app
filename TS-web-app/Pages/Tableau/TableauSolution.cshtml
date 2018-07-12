@@ -11,9 +11,9 @@
 
     @for (var i = 0; i < Model.ErrorResponseForm.FormulaParseRequests.Count; ++i) {
 
-        var isTrue = (Model.ErrorResponseForm.FormulaParseRequests[i].RawFormula.TruthLabel == TruthValue.True) ? '1' : '0';
+        var isTrue = (Model.ErrorResponseForm.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthValue.True) ? '1' : '0';
 
-        <input type="hidden" name="Formula[@Html.Encode(i)]" value="@Html.Encode(Model.ErrorResponseForm.FormulaParseRequests[i].RawFormula.Formula)" />
+        <input type="hidden" name="Formula[@Html.Encode(i)]" value="@Html.Encode(Model.ErrorResponseForm.FormulaParseRequests[i].UnparsedTableauNode.Formula)" />
         <input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)" />
         <input type="hidden" name="ErrorResponse[@Html.Encode(i)]" value="@Html.Encode(Model.ErrorResponseForm.FormulaParseRequests[i].ErrorResponse)">
     }

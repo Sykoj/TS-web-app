@@ -11,14 +11,10 @@ namespace TsWebApp.Model {
         public ulong Id { get; set; }
 
         [Required]
-        public List<RawFormula> RawFormulas { get; set; }
+        public IList<UnparsedTableauNode> RawFormulas { get; set; } = new List<UnparsedTableauNode>();
         [Required]
         public ulong SolverRequestId { get; set; }
         
-        public string UserId { get; set; }
-
-        public bool containsErrorMessage() {
-            throw new System.NotImplementedException();
-        }
+        public string User { get; set; }
     }
 }
