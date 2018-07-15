@@ -1,5 +1,6 @@
 ﻿using TsWebApp.TableauViews.Layout;
 using TableauxIO;
+using System;
 
 namespace TsWebApp.TableauViews {
 
@@ -13,7 +14,7 @@ namespace TsWebApp.TableauViews {
             string truthValue = (node.GetType() != typeof(CompletionNode)) ? node.TruthValue.GetStringRepresentation() : string.Empty;
 
             string representation = text;
-            if (node.Formula.GetType() == typeof(VariableFormula) && node.GetType() == typeof(UnaryNode)) {
+            if (!HasParenthesis(representation)) {
                 representation = $"({representation})";
             }
 
@@ -22,6 +23,17 @@ namespace TsWebApp.TableauViews {
                 Height = 1,
                 Representation = truthValue + representation
             };
+        }
+
+        private bool HasParenthesis(string representation) {
+
+            if (representation == null || representation == string.Empty) {
+                return true;
+            }
+
+            else {
+                return representation[0] == '(' && representation[representation.Length - 1] == ')';
+            }
         }
     }
 }

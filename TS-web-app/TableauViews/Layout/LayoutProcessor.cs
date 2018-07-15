@@ -26,7 +26,7 @@ namespace TsWebApp.TableauViews.Layout {
                 );
 
             node.Position = (X, Y);
-            ComputeChildPositions(node);
+            ComputePosition(node, node.TreeWidth / 2, -3);
             return node;
         }
 
@@ -61,35 +61,53 @@ namespace TsWebApp.TableauViews.Layout {
             return (subtreeWidth, subtreeHeight);
         }
 
-        private void ComputeChildPositions(ViewNode<T> node) {
+        public static (int leftSpace, int rightSpace) SplitSpace(int spaceSize) {
+
+            int x = 0;
+            int y = 0;
+
+            if (spaceSize % 2 != 0) {
+                x = spaceSize / 2;
+                y = spaceSize - x;
+            }
+            else {
+                x = y = spaceSize / 2;
+            }
+
+            return (x, y);
+        }
+
+        public static int GetAxisPrefixLength(uint nodeWidth) {
+            
+            if (nodeWidth == 1) {
+                return 0;
+            }
+            else {
+                return (int) (nodeWidth / 2 - 1);
+            }
+        }
+
+        private void ComputePosition(ViewNode<T> node, long parentNodeAxis, long currentTreeHeight) {
+
+            node.Position = (parentNodeAxis - GetAxisPrefixLength(node.View.Width),
+                             currentTreeHeight + node.View.Height + VerticalMargin);
 
             if (node is BinaryViewNode<T> binaryNode) {
 
-                var subtreeSum = binaryNode.LeftChild.TreeWidth + HorizontalMargin + binaryNode.RightChild.TreeWidth;
-                long leftHorizontalPosition = 0;
-                long rightHorizontalPosition = 0;
+                var childLevelLength = binaryNode.LeftChild.TreeWidth + HorizontalMargin + binaryNode.RightChild.TreeWidth;
 
-                var rf1 = (binaryNode.LeftChild.TreeWidth - binaryNode.LeftChild.View.Width) / 2;
-                var rf2 = (binaryNode.RightChild.TreeWidth - binaryNode.RightChild.View.Width) / 2;
-                var leftBorder = node.Position.X - (node.TreeWidth - node.View.Width) / 2;
+                long leftNodeAxis = parentNodeAxis - (childLevelLength / 2) + binaryNode.LeftChild.TreeWidth / 2;
+                long rightNodeAxis = parentNodeAxis + (childLevelLength / 2) - binaryNode.RightChild.TreeWidth / 2;
 
-                leftHorizontalPosition = leftBorder + (node.TreeWidth - subtreeSum) / 2 + rf1;
-                rightHorizontalPosition = leftHorizontalPosition + rf1 + HorizontalMargin + rf2;
+                ComputePosition(binaryNode.RightChild, rightNodeAxis, node.Position.Y);
+                ComputePosition(binaryNode.LeftChild, leftNodeAxis, node.Position.Y);
+            }
+            else if (node is UnaryViewNode<T> unaryNode) {
 
-                binaryNode.LeftChild.Position = (leftHorizontalPosition, node.Position.Y + node.View.Height + VerticalMargin);
-                binaryNode.RightChild.Position = (rightHorizontalPosition + binaryNode.LeftChild.View.Width, node.Position.Y + node.View.Height + VerticalMargin);
-
-                ComputeChildPositions(binaryNode.RightChild);
-                ComputeChildPositions(binaryNode.LeftChild);
-            } else if (node is UnaryViewNode<T> unaryNode) {
-
-                var leftBorder = node.Position.X - (node.TreeWidth - node.View.Width) / 2;
-                long childHorizontalPosition = leftBorder + (node.TreeWidth - unaryNode.Child.View.Width) / 2;
-
-                unaryNode.Child.Position = (childHorizontalPosition, unaryNode.Position.Y + node.View.Height + VerticalMargin);
-                ComputeChildPositions(unaryNode.Child);
-            } else if (node is CompletionViewNode<T> completionNode) {
-                return;
+                ComputePosition(unaryNode.Child, parentNodeAxis, node.Position.Y);
+            }
+            else if (node is CompletionViewNode<T> completionNode) {
+                return;  
             }
         }
     }

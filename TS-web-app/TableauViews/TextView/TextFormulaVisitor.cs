@@ -29,6 +29,11 @@ namespace TsWebApp.TableauViews {
         }
 
         public string Visit(NegationFormula negationFormula) {
+
+            if (negationFormula.Subformula.GetType() == typeof(VariableFormula)) {
+                return $"¬{negationFormula.Subformula.Apply(this)}";
+            }
+
             return $"(¬{negationFormula.Subformula.Apply(this)})";
         }
 

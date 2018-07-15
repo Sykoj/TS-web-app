@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using System.Web;
 using System.Collections.Generic;
 using TableauxIO;
+using System;
 using TsWebApp.Data;
 using TsWebApp.Model;
 using TsWebApp.TableauViews;
@@ -22,6 +22,8 @@ namespace TsWebApp.Pages.Tableau {
         public SolutionNode SolutionNode { get; set; }
 
         public string ViewForm { get; set; } = string.Empty;
+
+        public List<string> Canvas;
 
         public SolutionViewModel(ApplicationDbContext persistence) {
             Persistence = persistence;
@@ -51,16 +53,47 @@ namespace TsWebApp.Pages.Tableau {
             var canvasX = view.TreeWidth;
             var canvasY = view.TreeHeight;
 
-            List<string> canvas = new List<string>();
+            Canvas = new List<string>();
             for (int i = 0; i < canvasY; ++i) {
-                canvas.Add(new string(' ', (int)canvasX));
+                Canvas.Add(new string(' ', (int)canvasX * 2));
             }
 
-            PrintTree(canvas, view);
-            
-            foreach(var line in canvas) {
-                var htmlEncodedLine = HttpUtility.HtmlEncode(line);
-                ViewForm = ViewForm + htmlEncodedLine + "<br>";
+            PrintTree(Canvas, view);
+            GenerateConnections(Canvas, view);
+        }
+
+        void GenerateConnections(List<string> canvas, ViewNode<TextView> node) {
+
+            if (node is BinaryViewNode<TextView> binaryNode) {
+
+                var (x, y) = node.Position;
+                int axis = (int)x + LayoutProcessor<TextView>.GetAxisPrefixLength(node.View.Width);
+                canvas[(int)(y + 1)] = Emplace(canvas[(int)(y + 1)], "|", axis);
+
+                int leftAxis = (int)binaryNode.LeftChild.Position.X + LayoutProcessor<TextView>.GetAxisPrefixLength(binaryNode.LeftChild.View.Width);
+                int rightAxis = (int)binaryNode.RightChild.Position.X +  LayoutProcessor<TextView>.GetAxisPrefixLength(binaryNode.RightChild.View.Width);
+
+                var diff = rightAxis - leftAxis;
+                var connection = new string('-', diff);
+
+                canvas[(int)(y + 2)] = Emplace(canvas[(int)(y + 2)], connection, leftAxis);
+
+                GenerateConnections(canvas, binaryNode.RightChild);
+                GenerateConnections(canvas, binaryNode.LeftChild);
+
+            } else if (node is UnaryViewNode<TextView> unaryNode) {
+
+                if (unaryNode.Child.GetType() == typeof(CompletionViewNode<TextView>)
+                    && unaryNode.Child.View == null || unaryNode.Child.View.Representation == string.Empty) {
+                    return;
+                }
+
+                var (x, y) = node.Position;
+                int axis = (int)x + LayoutProcessor<TextView>.GetAxisPrefixLength(node.View.Width);
+                canvas[(int)(y + 1)] = Emplace(canvas[(int)(y + 1)], "|", axis);
+                canvas[(int)(y + 2)] = Emplace(canvas[(int)(y + 2)], "|", axis);
+
+                GenerateConnections(canvas, unaryNode.Child);
             }
         }
 
@@ -81,8 +114,16 @@ namespace TsWebApp.Pages.Tableau {
 
         string Emplace(string line, string text, int index) {
 
-            var x = line.Substring(0, index);
-            var y = line.Substring(index + text.Length);
+            string x = string.Empty;
+            string y = string.Empty;
+            if (index != 0) {
+                x = line.Substring(0, index);
+            }
+            if (index + text.Length < line.Length) {
+                y = line.Substring(index + text.Length);
+
+            }
+
             return x + text + y;
         }
 

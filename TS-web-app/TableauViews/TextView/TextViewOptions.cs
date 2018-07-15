@@ -10,7 +10,7 @@ namespace TsWebApp.TableauViews {
             = (treeWidth, treeHeight, nodeWidth, nodeHeight) => {
 
 
-                return ((int)((treeWidth / 2) - (nodeWidth / 2)), 0);
+                return (LayoutProcessor<TextView>.SplitSpace((int) (treeWidth - nodeWidth)).leftSpace, -3);
             };
     }
 }
