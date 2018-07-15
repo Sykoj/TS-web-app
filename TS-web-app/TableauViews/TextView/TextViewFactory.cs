@@ -14,7 +14,7 @@ namespace TsWebApp.TableauViews {
             string truthValue = (node.GetType() != typeof(CompletionNode)) ? node.TruthValue.GetStringRepresentation() : string.Empty;
 
             string representation = text;
-            if (!HasParenthesis(representation)) {
+            if (!HasParenthesis(representation) && representation != "X") {
                 representation = $"({representation})";
             }
 

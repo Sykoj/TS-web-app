@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using TableauxIO;
-using System;
 using TsWebApp.Data;
 using TsWebApp.Model;
-using TsWebApp.TableauViews;
-using TsWebApp.TableauViews.Layout;
-using TsWebApp.TableauViews.ViewTree;
 
 namespace TsWebApp.Pages.Tableau {
 
     public class SolutionViewModel : PageModel {
+
+        public enum SolutionViewType { Text, Svg };
+
+        public SolutionViewType ViewType { get; set; } 
 
         private ApplicationDbContext Persistence { get; set; }
 
@@ -30,7 +30,9 @@ namespace TsWebApp.Pages.Tableau {
         }
 
         [ActionName("SolutionView")]
-        public void OnGet(ulong id, string session) {
+        public void OnGet(ulong id, string session, SolutionViewType solutionViewType) {
+
+            ViewType = solutionViewType;
 
             var request = Persistence.TableauRequests.Find(id);
             Persistence.Entry(request).Collection(p => p.RawFormulas).Load();
@@ -44,6 +46,7 @@ namespace TsWebApp.Pages.Tableau {
                 SolutionNode = result.SolutionNode;
             }
 
+            /*
             var viewBuilder = new ViewTreeBuilder<TextView>(new TextViewFactory());
             var view = viewBuilder.CreateViewTree(SolutionNode);
 
@@ -55,13 +58,13 @@ namespace TsWebApp.Pages.Tableau {
 
             Canvas = new List<string>();
             for (int i = 0; i < canvasY; ++i) {
-                Canvas.Add(new string(' ', (int)canvasX * 2));
+                Canvas.Add(new string(' ', (int)canvasX));
             }
 
             PrintTree(Canvas, view);
-            GenerateConnections(Canvas, view);
+            GenerateConnections(Canvas, view);*/
         }
-
+        /*
         void GenerateConnections(List<string> canvas, ViewNode<TextView> node) {
 
             if (node is BinaryViewNode<TextView> binaryNode) {
@@ -125,7 +128,7 @@ namespace TsWebApp.Pages.Tableau {
             }
 
             return x + text + y;
-        }
+        }*/
 
 
     }

@@ -5,12 +5,6 @@ namespace TsWebApp.TableauViews {
     public class TextViewOptions : ILayoutOptions<TextView> {
 
         public uint HorizontalMargin { get; set; } = 10;
-        public uint VerticalMargin { get; set; } = 2;
-        public LayoutProcessor<TextView>.RootPositionSetter RootPosition { get; set; }
-            = (treeWidth, treeHeight, nodeWidth, nodeHeight) => {
-
-
-                return (LayoutProcessor<TextView>.SplitSpace((int) (treeWidth - nodeWidth)).leftSpace, -3);
-            };
+        public uint VerticalMargin { get; set; } = 3;
     }
 }

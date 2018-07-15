@@ -6,27 +6,16 @@ namespace TsWebApp.TableauViews.Layout {
 
         private uint HorizontalMargin { get; }
         private uint VerticalMargin { get; }
-        public delegate (int X, int Y) RootPositionSetter(uint TreeWidth, uint TreeHeight, uint RootWidth, uint RootHeight);
-
-        public RootPositionSetter RootPositionSet { get; }
 
         public LayoutProcessor(ILayoutOptions<T> options) {
             HorizontalMargin = options.HorizontalMargin;
             VerticalMargin = options.VerticalMargin;
-            RootPositionSet = options.RootPosition;
         }
 
         public ViewNode<T> SetLayout(ViewNode<T> node) {
 
             (node.TreeWidth, node.TreeHeight) = ComputeSizes(node);
-
-            (int X, int Y) = RootPositionSet(
-                node.TreeWidth, node.TreeHeight,
-                node.View.Width, node.View.Height
-                );
-
-            node.Position = (X, Y);
-            ComputePosition(node, node.TreeWidth / 2, -3);
+            ComputePosition(node, GetAxisPrefixLength(node.TreeWidth), - VerticalMargin - node.View.Height);
             return node;
         }
 
@@ -61,29 +50,13 @@ namespace TsWebApp.TableauViews.Layout {
             return (subtreeWidth, subtreeHeight);
         }
 
-        public static (int leftSpace, int rightSpace) SplitSpace(int spaceSize) {
-
-            int x = 0;
-            int y = 0;
-
-            if (spaceSize % 2 != 0) {
-                x = spaceSize / 2;
-                y = spaceSize - x;
-            }
-            else {
-                x = y = spaceSize / 2;
-            }
-
-            return (x, y);
-        }
-
-        public static int GetAxisPrefixLength(uint nodeWidth) {
+        public int GetAxisPrefixLength(uint nodeWidth) {
             
             if (nodeWidth == 1) {
                 return 0;
             }
             else {
-                return (int) (nodeWidth / 2 - 1);
+                return (int) (nodeWidth / 2) - 1;
             }
         }
 

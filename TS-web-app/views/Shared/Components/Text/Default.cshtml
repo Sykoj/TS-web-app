@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Html
+@model string[]
+
+@{
+    ViewData["Title"] = "Default";
+}
+
+<style>
+    #textSolution {
+        font-family: "Lucida Console", Monaco, monospace;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+        background-color: #fff;
+    }
+</style>
+
+<div id="textSolution" style="white-space: pre">
+    <b>
+        @foreach (var line in Model) {
+            @(new HtmlString(line + "</br>"))
+        }
+    </b>
+</div>
