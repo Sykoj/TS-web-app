@@ -42,7 +42,7 @@ namespace TsWebApp.Pages.Tableau {
                 }
                 
                 var tableauSolution = TableauSolverService.SolveTableauInput(tableauInput);
-                HttpContext.Session.SetString(HttpContext.Session.Id, JsonConvert.SerializeObject(tableauSolution.SolutionNode));
+                HttpContext.Session.SetString(HttpContext.Session.Id, JsonConvert.SerializeObject(tableauSolution));
                 var result = EventService.LogSolutionEvent(unparsedTableauInput, tableauSolution, HttpContext.User);
                 return RedirectToPage("SolutionView", new { id = result.Id, session = HttpContext.Session.Id });
             }

@@ -12222,7 +12222,7 @@
       ]
     },
     "TableauxIO/1.0.3": {
-      "sha512": "J/01vmqSl0UIHoWN4yOaBxxk1V0+536JnMg8oURGmV1Zrccult9U6gy94MdbvIMVAqZ6VVL2de8iRzcwciKzJA==",
+      "sha512": "X+G+5y2WcD3nyT9rZPMritapugMJdb/skABOVKnniEr5fqk85vU82q3RbBjUy/jUdglXEjdtaGY3i8LLCaQ/Dg==",
       "type": "package",
       "path": "tableauxio/1.0.3",
       "files": [
@@ -12264,7 +12264,8 @@
         "netcoreapp2.1"
       ],
       "sources": {
-        "C:\\Users\\Sykoj\\source\\repos\\TSClient\\TSClient\\local_packages": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\Sykoj\\source\\repos\\tableau-solver-web-api\\TableauxIO\\bin\\Debug": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
