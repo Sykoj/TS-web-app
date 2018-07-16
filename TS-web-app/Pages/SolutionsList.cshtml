@@ -1,0 +1,29 @@
+﻿@page
+@using TableauxIO
+@model TsWebApp.Pages.SolutionsListModel
+@{
+    ViewData["Title"] = "Your solutions";
+
+<table>
+    <tr>
+        <th>RequestId</th>
+        <th>Formulas</th>
+    </tr>
+    
+    @foreach (var request in Model.UserRequests) {
+    <tr>
+        <td>@Html.Encode(request.Id)</td>
+        <td>
+            <ul>
+                @foreach (var unparsedTableauNode in request.RawFormulas) {
+
+                <li>@Html.Encode(unparsedTableauNode.Formula)</li>
+                }
+            </ul>
+        </td>
+</tr>
+    }
+
+</table>
+
+}

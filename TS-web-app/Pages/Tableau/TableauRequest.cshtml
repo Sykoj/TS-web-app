@@ -2,12 +2,17 @@
 @using TableauxIO
 @model TableauRequestModel
 @{
-    ViewData["Title"] = "Tableau Request Form";
+    ViewData["Title"] = "Tableau Solver";
 }
 
-<form asp-page="/Tableau/TableauSolution" method="post">
-    <h4>Set input for tableau solver</h4>
-    <div>
+<style>
+    #requestForm {
+        margin-top: 50px;
+    }
+</style>
+
+<form asp-page="/Tableau/InputVerification" method="post">
+    <div id="requestForm">
         <table id="container">
             <tr>
                 <th>Formula</th>

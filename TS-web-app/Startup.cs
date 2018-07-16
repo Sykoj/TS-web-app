@@ -57,8 +57,13 @@ namespace TsWebApp {
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
             services.AddSingleton<TextViewService>();
+            services.AddSingleton<SvgViewService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .AddRazorPagesOptions(options => {
+                    options.Conventions.AddPageRoute("/Tableau/TableauRequest", string.Empty);
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {

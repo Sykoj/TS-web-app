@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Security.Claims;
-using TableauxIO;
 using TsWebApp.Data;
 using TsWebApp.Model;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace TsWebApp.Services {
 
@@ -25,6 +26,18 @@ namespace TsWebApp.Services {
             DbContext.TableauRequests.Add(tableauRequest);
             DbContext.SaveChanges();
             return tableauRequest;
+        }
+
+        internal List<TableauRequest> GetRequestsMadeByUser(string name) {
+
+            var userRequestsQuery
+                = DbContext.TableauRequests
+                  .Where(r => r.User == name)
+                  .Include(r => r.RawFormulas);
+
+            var requests = userRequestsQuery.ToList();
+            if (requests == null) requests = new List<TableauRequest>();
+            return requests;
         }
     }
 }
