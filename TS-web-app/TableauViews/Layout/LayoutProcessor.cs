@@ -15,6 +15,7 @@ namespace TsWebApp.TableauViews.Layout {
         public ViewNode<T> SetLayout(ViewNode<T> node) {
 
             (node.TreeWidth, node.TreeHeight) = ComputeSizes(node);
+            node.TreeWidth++;
             ComputePosition(node, GetAxisPrefixLength(node.TreeWidth), - VerticalMargin - node.View.Height);
             return node;
         }
