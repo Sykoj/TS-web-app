@@ -21,4 +21,7 @@
     @if (Model.ViewType == SolutionViewModel.SolutionViewType.Text) {
         @await Component.InvokeAsync("Text", Model.SolutionNode)
     }
+    @if (Model.ViewType == SolutionViewModel.SolutionViewType.Svg) {
+        @await Component.InvokeAsync("Svg", Model.SolutionNode)
+    }
 </center>
