@@ -21,7 +21,8 @@ namespace TsWebApp.Services {
             var tableauRequest = new TableauRequest() {
                 RawFormulas = (from f in tableauInput.FormulaParseRequests select f.UnparsedTableauNode).ToList(),
                 User = username,
-                SolverRequestId = tableauOutput.RequestId
+                SolverRequestId = tableauOutput.RequestId,
+                Date = tableauOutput.RequestDate
             };
             DbContext.TableauRequests.Add(tableauRequest);
             DbContext.SaveChanges();
@@ -35,9 +36,7 @@ namespace TsWebApp.Services {
                   .Where(r => r.User == name)
                   .Include(r => r.RawFormulas);
 
-            var requests = userRequestsQuery.ToList();
-            if (requests == null) requests = new List<TableauRequest>();
-            return requests;
+            return userRequestsQuery.ToList();
         }
     }
 }

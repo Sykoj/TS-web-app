@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using TableauxIO;
 
 namespace TsWebApp.Model {
@@ -10,5 +11,8 @@ namespace TsWebApp.Model {
 
         [JsonProperty("solution")]
         public SolutionNode SolutionNode { get; private set; }
+
+        [JsonProperty("requestDate")]
+        public DateTime RequestDate { get; private set; }
     }
 }

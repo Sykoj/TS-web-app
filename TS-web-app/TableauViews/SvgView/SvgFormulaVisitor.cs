@@ -1,43 +1,60 @@
-﻿using TableauxIO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TableauxIO;
+using TsWebApp.Services;
 
-namespace TsWebApp.TableauViews.SvgView {
+namespace TsWebApp.TableauViews {
 
     public class SvgFormulaVisitor : ILayoutableVisitor<SvgView> {
 
-        public SvgView Visit(CompletionClosure completionClosure) {
-            throw new System.NotImplementedException();
-        }
+        private readonly TextFormulaVisitor _textFormulaVisitor;
+        private readonly SvgViewService _svgViewService;
 
-        public SvgView Visit(ConjuctionFormula conjuctionFormula) {
-            throw new System.NotImplementedException();
-        }
-
-        public SvgView Visit(ContradictionClosure contradictionClosure) {
-            throw new System.NotImplementedException();
-        }
-
-        public SvgView Visit(DisjunctionFormula disjunctionFormula) {
-            throw new System.NotImplementedException();
-        }
-
-        public SvgView Visit(EquivalenceFormula equivalenceFormula) {
-            throw new System.NotImplementedException();
-        }
-
-        public SvgView Visit(ImplicationFormula implicationFormula) {
-            throw new System.NotImplementedException();
-        }
-
-        public SvgView Visit(NegationFormula negationFormula) {
-            throw new System.NotImplementedException();
-        }
-
-        public SvgView Visit(VariableFormula variableFormula) {
-            throw new System.NotImplementedException();
+        public SvgFormulaVisitor(SvgViewService svgViewService) {
+            _textFormulaVisitor = new TextFormulaVisitor();
+            _svgViewService = svgViewService;
         }
 
         public SvgView Visit(Formula formula) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public SvgView Visit(CompletionClosure completionClosure) {
+            throw new NotImplementedException();
+        }
+
+        public SvgView Visit(ConjuctionFormula conjuctionFormula) {
+
+            var text = conjuctionFormula.Apply(_textFormulaVisitor);
+            return new FormulaTextSvg(14);
+        }
+
+        public SvgView Visit(ContradictionClosure contradictionClosure) {
+            throw new NotImplementedException();
+        }
+
+        public SvgView Visit(DisjunctionFormula disjunctionFormula) {
+
+            var text = disjunctionFormula.Apply(_textFormulaVisitor);
+            return new FormulaTextSvg(14);
+        }
+
+        public SvgView Visit(EquivalenceFormula equivalenceFormula) {
+            throw new NotImplementedException();
+        }
+
+        public SvgView Visit(ImplicationFormula implicationFormula) {
+            throw new NotImplementedException();
+        }
+
+        public SvgView Visit(NegationFormula negationFormula) {
+            throw new NotImplementedException();
+        }
+
+        public SvgView Visit(VariableFormula variableFormula) {
+            throw new NotImplementedException();
         }
     }
 }

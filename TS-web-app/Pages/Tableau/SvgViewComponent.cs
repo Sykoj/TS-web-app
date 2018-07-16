@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TsWebApp.Services;
 using TableauxIO;
+using TsWebApp.TableauViews;
 
 namespace TsWebApp.Pages.Tableau {
 
@@ -15,8 +17,10 @@ namespace TsWebApp.Pages.Tableau {
 
         public async Task<IViewComponentResult> InvokeAsync(SolutionNode solution) {
 
-            string[] canvas = _textViewService.GetTextView(solution);
-            return View(canvas);
+            var svg = new FormulaTextSvg(14);
+            svg.SetTextAndComputeSizes("p IMP q");
+
+            return View(new List<SvgView>() {svg} );
         }
 
     }

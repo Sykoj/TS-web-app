@@ -51,8 +51,9 @@ namespace TsWebApp {
                 options.Password.RequiredLength = 4;
             });
 
-            services.AddSingleton<ITableauSolver, TableauSolver>();
+            services.AddSingleton<TableauSolver>();
             services.AddSingleton<IFormulaParser, FormulaParser>();
+            services.AddSingleton<ITableauSolver, TableauSolver>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();

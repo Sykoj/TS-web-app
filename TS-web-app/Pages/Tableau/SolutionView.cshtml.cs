@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using TableauxIO;
 using TsWebApp.Data;
 using TsWebApp.Model;
+using TsWebApp.Services;
 
 namespace TsWebApp.Pages.Tableau {
 
@@ -20,13 +20,12 @@ namespace TsWebApp.Pages.Tableau {
         public TableauRequest TableauRequest { get; set; }
 
         public SolutionNode SolutionNode { get; set; }
+        
+        public TableauSolver TableauSolver { get; }
 
-        public string ViewForm { get; set; } = string.Empty;
-
-        public List<string> Canvas;
-
-        public SolutionViewModel(ApplicationDbContext persistence) {
+        public SolutionViewModel(ApplicationDbContext persistence, TableauSolver tableauSolver) {
             Persistence = persistence;
+            TableauSolver = tableauSolver;
         }
 
         [ActionName("SolutionView")]
@@ -38,12 +37,14 @@ namespace TsWebApp.Pages.Tableau {
             Persistence.Entry(request).Collection(p => p.RawFormulas).Load();
             TableauRequest = request;
 
-            string solutionJson = null;
             if (session != null) {
 
-                solutionJson = HttpContext.Session.GetString(session);
+                var solutionJson = HttpContext.Session.GetString(session);
                 var result = JsonConvert.DeserializeObject<RequestResult>(solutionJson);
                 SolutionNode = result.SolutionNode;
+            }
+            else {
+                SolutionNode = TableauSolver.GetTableauInput((long) request.SolverRequestId).SolutionNode;
             }
         }
     }
