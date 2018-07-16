@@ -15,8 +15,7 @@ namespace TsWebApp.TableauViews.Layout {
         public ViewNode<T> SetLayout(ViewNode<T> node) {
 
             (node.TreeWidth, node.TreeHeight) = ComputeSizes(node);
-            node.TreeWidth++;
-            ComputePosition(node, GetAxisPrefixLength(node.TreeWidth), - VerticalMargin - node.View.Height);
+            ComputePosition(node, GetAxisPrefixLength(node.TreeWidth), - VerticalMargin - node.View.Height, 0, (int)node.TreeWidth);
             return node;
         }
 
@@ -61,24 +60,22 @@ namespace TsWebApp.TableauViews.Layout {
             }
         }
 
-        private void ComputePosition(ViewNode<T> node, long parentNodeAxis, long currentTreeHeight) {
+        private void ComputePosition(ViewNode<T> node, long parentNodeAxis, long currentTreeHeight, int leftBorder, int rightBorder) {
 
             node.Position = (parentNodeAxis - GetAxisPrefixLength(node.View.Width),
                              currentTreeHeight + node.View.Height + VerticalMargin);
 
             if (node is BinaryViewNode<T> binaryNode) {
 
-                var childLevelLength = binaryNode.LeftChild.TreeWidth + HorizontalMargin + binaryNode.RightChild.TreeWidth;
-
-                long leftNodeAxis = parentNodeAxis - (childLevelLength / 2) + binaryNode.LeftChild.TreeWidth / 2;
-                long rightNodeAxis = parentNodeAxis + (childLevelLength / 2) - binaryNode.RightChild.TreeWidth / 2;
-
-                ComputePosition(binaryNode.RightChild, rightNodeAxis, node.Position.Y);
-                ComputePosition(binaryNode.LeftChild, leftNodeAxis, node.Position.Y);
+                long leftNodeAxis = leftBorder + GetAxisPrefixLength(binaryNode.LeftChild.TreeWidth);
+                long rightNodeAxis = rightBorder - binaryNode.RightChild.TreeWidth + GetAxisPrefixLength(binaryNode.RightChild.TreeWidth);
+                
+                ComputePosition(binaryNode.LeftChild, leftNodeAxis, node.Position.Y, leftBorder,  leftBorder + (int)binaryNode.LeftChild.TreeWidth);
+                ComputePosition(binaryNode.RightChild, rightNodeAxis, node.Position.Y, rightBorder - (int)binaryNode.RightChild.TreeWidth, rightBorder);
             }
             else if (node is UnaryViewNode<T> unaryNode) {
 
-                ComputePosition(unaryNode.Child, parentNodeAxis, node.Position.Y);
+                ComputePosition(unaryNode.Child, parentNodeAxis, node.Position.Y, leftBorder, rightBorder);
             }
             else if (node is CompletionViewNode<T> completionNode) {
                 return;  
