@@ -11,7 +11,7 @@
         <table id="container">
             <tr>
                 <th>Formula</th>
-                <th>Truth value</th>
+                <th><center>Truth value</center></th>
                 <th></th>
                 <th>Parser error message</th>
             </tr>
@@ -21,7 +21,7 @@
                 var isTrue = (Model.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthValue.True) ? '1' : '0';
 
                 <tr>
-                    <td><input class="text-box single-line" name="Formula[@Html.Encode(i)]" type="text" value="@Html.Encode(Model.FormulaParseRequests[i].UnparsedTableauNode.Formula)" onchange="eraseErrorResponse(@Html.Encode(i))"></td>
+                    <td><input class="text-box single-line" id="formulaRow" name="Formula[@Html.Encode(i)]" type="text" value="@Html.Encode(Model.FormulaParseRequests[i].UnparsedTableauNode.Formula)" onchange="eraseErrorResponse(@Html.Encode(i))"></td>
                     <td><input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)"><input type="checkbox" onclick="this.previousSibling.value = 1 - this.previousSibling.value" @if (isTrue == '1') {
                                                                                                                                                                                                               @Html.Encode("checked = 'checked'")
                                                                                                                                                                                                           }></td>
@@ -44,6 +44,13 @@
         errorResponse[0].setAttribute("value", "");
     }
 </script>
+
+<style>
+    #formulaRow {
+        width: 300px
+    }
+
+</style>
 
 <script type="text/javascript">
     function deleteRow(row) {
@@ -85,6 +92,7 @@
 
         var linksBox = document.createElement("input");
         linksBox.setAttribute("class", "text-box single-line");
+        linksBox.setAttribute("id", "formulaRow");
         linksBox.setAttribute("name", "Formula[" + (currentIndex - 1) + "]");
         linksBox.setAttribute("type", "text");
         linksBox.setAttribute("onchange", "eraseErrorResponse(" + (currentIndex - 1) + ")");

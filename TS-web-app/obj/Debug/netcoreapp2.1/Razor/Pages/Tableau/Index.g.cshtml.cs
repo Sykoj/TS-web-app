@@ -50,7 +50,7 @@ namespace TsWebApp.Pages.Tableau
             WriteLiteral("\r\n<p>\r\n    ");
             EndContext();
             BeginContext(93, 56, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7eb9019aad8444268fb9c1592855acc2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "934d2db0a76d4df88197cacdb2feee64", async() => {
                 BeginContext(122, 23, true);
                 WriteLiteral("Add new tableau formula");
                 EndContext();
