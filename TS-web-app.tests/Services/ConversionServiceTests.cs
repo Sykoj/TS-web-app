@@ -99,7 +99,7 @@ namespace TsWebApp.tests.Services {
         public void CreatesErrorResponseOnParserException() {
 
             var formulaParser = new Mock<IFormulaParser>();
-            formulaParser.Setup(t => t.ParseFormula(It.IsAny<string>())).Throws(new ParseException());
+            formulaParser.Setup(t => t.ParseFormula(It.IsAny<string>())).Throws(new ParseException("..."));
 
             var conversionService = new ConversionService(formulaParser.Object);
             var (tableauInput, errorResponse) = conversionService.ParseTableauInput(_inputSingleFormula);
@@ -115,7 +115,7 @@ namespace TsWebApp.tests.Services {
             var formulaParser = new Mock<IFormulaParser>();
             formulaParser.SetupSequence(t => t.ParseFormula(It.IsAny<string>()))
                 .Returns(new VariableFormula('n'))
-                .Throws(new ParseException());
+                .Throws(new ParseException("..."));
 
             var conversionService = new ConversionService(formulaParser.Object);
             var (tableauInput, errorResponse) = conversionService.ParseTableauInput(_inputTwoFormulas);
