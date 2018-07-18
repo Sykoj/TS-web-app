@@ -51,14 +51,20 @@ namespace TsWebApp {
                 options.Password.RequiredLength = 4;
             });
 
-            services.AddSingleton<ITableauSolver, TableauSolver>();
+            services.AddSingleton<TableauSolver>();
             services.AddSingleton<IFormulaParser, FormulaParser>();
+            services.AddSingleton<ITableauSolver, TableauSolver>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
             services.AddSingleton<TextViewService>();
+            services.AddSingleton<SvgViewService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .AddRazorPagesOptions(options => {
+                    options.Conventions.AddPageRoute("/Tableau/TableauRequest", string.Empty);
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {

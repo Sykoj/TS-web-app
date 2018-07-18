@@ -1,24 +1,44 @@
 ﻿@page
+@using Model
 @model SolutionViewModel
 @{
     ViewData["Title"] = "SolutionView";
 }
 
-<center>
-    <table style="border:1px solid">
+<style>
+    .center {
+        margin: auto;
+        width: 50%;
+    }
+</style>
+
+    <table class="center" style="border:1px solid">
         <tr>
-            <th style="min-width:200px"><center><b>Formula</b></center></th>
-            <th style="width:200px"><center><b>Truth label</b></center></th>
+            <th style="min-width:200px"><div class="center"><b>Formula</b></div></th>
+            <th style="width:200px"><div class="center"><b>Truth label</b></div></th>
         </tr>
-        @foreach (var formula in Model.TableauRequest.RawFormulas) {
+        @foreach (var formula in Model.TableauSolutionEvent.RawFormulas) {
             <tr>
-                <td><center>@Html.Encode(formula.Formula)</center></td>
-                <td><center>@Html.Encode(formula.TruthLabel)</center></td>
+                <td><div class="center">@Html.Encode(formula.Formula)</div></td>
+                <td><div class="center">@Html.Encode(formula.TruthLabel)</div></td>
             </tr>
         }
     </table>
 
-    @if (Model.ViewType == SolutionViewModel.SolutionViewType.Text) {
-        @await Component.InvokeAsync("Text", Model.SolutionNode)
+    <div style="text-align:center">
+        <!-- Solution view components -->
+        @if (Model.ViewType == SolutionViewType.Text) {
+            @await Component.InvokeAsync("Text", Model.TableauSolutionEvent.Solution)
+        }
+        @if (Model.ViewType == SolutionViewType.Svg) {
+            @await Component.InvokeAsync("Svg", Model.TableauSolutionEvent.Solution)
+        }
+    </div>
+
+    @if (Model.TableauSolutionEvent.ExpectedTableauType != TableauType.Default) {
+    <div class="center">
+
+        <p>Expected result: @Html.DisplayFor(m => m.TableauSolutionEvent.ExpectedTableauType)</p>
+        <p>Current result: @Html.DisplayFor(m => m.TableauSolutionEvent.TableauType)</p>
+    </div>
     }
-</center>

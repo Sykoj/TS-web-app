@@ -10,7 +10,7 @@ namespace TsWebApp.Data {
             : base(options) {
         }
 
-        public DbSet<TableauRequest> TableauRequests { get; set; }
+        public DbSet<TableauSolutionEvent> TableauRequests { get; set; }
         public DbSet<UnparsedTableauNode> RawFormulas { get; set; }
     }
 }

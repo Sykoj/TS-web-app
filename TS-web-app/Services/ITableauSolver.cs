@@ -5,6 +5,6 @@ namespace TsWebApp.Services {
 
     public interface ITableauSolver {
 
-        RequestResult SolveTableauInput(TableauInput tableauInput);
+        TableauOutput SolveTableauInput(TableauInput tableauInput);
     }
 }

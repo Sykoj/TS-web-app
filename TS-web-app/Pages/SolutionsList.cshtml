@@ -1,0 +1,67 @@
+﻿@page
+@using Model
+@using TableauxIO
+@model TsWebApp.Pages.SolutionsListModel
+@{
+    ViewData["Title"] = "Your solutions";
+
+    <style>
+        #truthValue {
+            width: 50px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+    </style>
+       
+        <form method="get">
+            <div style="display: inline-block;">
+                <label>Tableau type: @Html.DropDownListFor(m => m.TableauType, Html.GetEnumSelectList(typeof(TableauType)), new { onchange = "form.submit();" })</label></div>
+            <br/>
+            <div style="display: inline-block;">
+                <label>Expected tableau type: @Html.DropDownListFor(m => m.ExpectedTableauType, Html.GetEnumSelectList(typeof(TableauType)), new { onchange = "form.submit();" })</label></div>
+            <br/>
+            <div style="display: inline-block;">
+                <label>Sort order: @Html.DropDownListFor(m => m.SortOrder, Html.GetEnumSelectList(typeof(SortOrder)), new { onchange = "form.submit();"})</label></div>
+        </form>
+    <center>
+        <table border="1">
+            <tr>
+                <th>Date</th>
+                <th>Formulas</th>
+                <th>Solution</th>
+            </tr>
+
+            @foreach (var request in Model.FilteredUserRequests) {
+                <tr>
+                    <td>@Html.Encode(request.Date)</td>
+                    <td>
+                        <ul>
+                            @foreach (var unparsedTableauNode in request.RawFormulas) {
+
+                                <li>
+                                    <div>@Html.Encode(unparsedTableauNode.TruthLabel)</div>@Html.Encode(unparsedTableauNode.Formula)</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        @{
+                            var link = $"Tableau/SolutionView?id={request.Id}&solutionViewType=Text";
+                            var url = $"<a href={link}>Show solution as text</a>";
+                        }
+                        @Html.Raw(url)
+                        <br>
+                        @{
+                            link = $"Tableau/SolutionView?id={request.Id}&solutionViewType=Svg";
+                            url = $"<a href={link}>Show solution as svg</a>";
+                        }
+                        @Html.Raw(url)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </center>
+}
