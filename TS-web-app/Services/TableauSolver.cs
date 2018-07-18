@@ -16,8 +16,10 @@ namespace TsWebApp.Services {
             _solverService = new HttpClient { BaseAddress = new Uri(configuration["TableauSolverService"]) };
         }
 
-        public RequestResult SolveTableauInput(TableauInput tableauInput) {
-            
+        public TableauOutput SolveTableauInput(TableauInput tableauInput) {
+
+            var json = JsonConvert.SerializeObject(tableauInput);
+
             var content = new StringContent(
                 JsonConvert.SerializeObject(tableauInput),
                 Encoding.UTF8,
@@ -27,18 +29,21 @@ namespace TsWebApp.Services {
             var response = responseTask.Result;
             var jsonResponse = response.Content.ReadAsStringAsync();
             var serializedNode = jsonResponse.Result;
-
-            return JsonConvert.DeserializeObject<RequestResult>(serializedNode);
+            
+            var tableauOutput = JsonConvert.DeserializeObject<TableauOutput>(serializedNode);
+            tableauOutput.TableauType =
+                TableauSolutionCategorizer.CategorizeTableauSolution(tableauOutput.SolutionNode);
+            return tableauOutput;
         }
 
-        public RequestResult GetTableauInput(long solutionRequestId) {
+        public TableauOutput GetTableauInput(long solutionRequestId) {
 
             var responseTask = _solverService.GetAsync($"api/responses/{solutionRequestId}");
             var response = responseTask.Result;
             var jsonResponse = response.Content.ReadAsStringAsync();
             var serializedNode = jsonResponse.Result;
 
-            return JsonConvert.DeserializeObject<RequestResult>(serializedNode);
+            return JsonConvert.DeserializeObject<TableauOutput>(serializedNode);
         }
     }
 }

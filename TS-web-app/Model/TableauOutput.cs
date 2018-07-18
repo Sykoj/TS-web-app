@@ -4,7 +4,7 @@ using TableauxIO;
 
 namespace TsWebApp.Model {
 
-    public class RequestResult {
+    public class TableauOutput {
 
         [JsonProperty("requestId")]
         public ulong RequestId { get; private set; }
@@ -14,5 +14,7 @@ namespace TsWebApp.Model {
 
         [JsonProperty("requestDate")]
         public DateTime RequestDate { get; private set; }
+
+        public TableauType TableauType { get; set; }
     }
 }

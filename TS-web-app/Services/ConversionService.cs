@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using TableauxIO;
 using TableauxIO.Parser;
 using TsWebApp.Exceptions;
@@ -25,9 +23,7 @@ namespace TsWebApp.Services {
             if (!unparsedTableauInput.HasAtleastOneParseRequest()) {
                 throw new ConversionException("Unparsed tableau input must contain atleast one formula to parse");
             }
-            if (unparsedTableauInput.HasErrorResponse()) {
-                return (new TableauInput(), unparsedTableauInput);
-            }
+            
             if ((from request in unparsedTableauInput.FormulaParseRequests
                 where request.UnparsedTableauNode.Formula == null
                 select request).Any()) {
@@ -39,6 +35,10 @@ namespace TsWebApp.Services {
 
             try {
                 foreach (var request in unparsedTableauInput.FormulaParseRequests) {
+
+                    if (request.ErrorResponse != string.Empty) {
+                        continue;
+                    }
 
                     try {
                         var formula = FormulaParser.ParseFormula(request.UnparsedTableauNode.Formula);

@@ -1,5 +1,6 @@
 ﻿@page
 @using TableauxIO
+@using Model
 @model TableauRequestModel
 @{
     ViewData["Title"] = "Tableau Solver";
@@ -26,12 +27,12 @@
                 var isTrue = (Model.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthValue.True) ? '1' : '0';
 
                 <tr>
-                    <td><input class="text-box single-line" id="formulaRow" name="Formula[@Html.Encode(i)]" type="text" value="@Html.Encode(Model.FormulaParseRequests[i].UnparsedTableauNode.Formula)" onchange="eraseErrorResponse(@Html.Encode(i))"></td>
-                    <td><input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)"><input type="checkbox" onclick="this.previousSibling.value = 1 - this.previousSibling.value" @if (isTrue == '1') {
-                                                                                                                                                                                                              @Html.Encode("checked = 'checked'")
-                                                                                                                                                                                                          }></td>
+                    <td><input id="formulaRow" name="Formula[@Html.Encode(i)]" type="text" value="@Html.Encode(Model.FormulaParseRequests[i].UnparsedTableauNode.Formula)" onchange="eraseErrorResponse(@Html.Encode(i))"></td>
+                    <td style="text-align: center;"><input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)"><input type="checkbox" onclick="this.previousSibling.value = 1 - this.previousSibling.value" @if (isTrue == '1') {
+                                                                                                                                                                                                                  @Html.Encode("checked = 'checked'")
+                                                                                                                                                                                                              }></td>
                     <td><input type="button" value="Remove formula" onclick="deleteRow(this.parentNode.parentNode)"/></td>
-                    <td><input type="text" name="ErrorResponse[@Html.Encode(i)]" value="@Html.Encode(Model.FormulaParseRequests[i].ErrorResponse)" readonly="readonly"></td>
+                    <td><input type="text" id="errorRow" name="ErrorResponse[@Html.Encode(i)]" value="@Html.Encode(Model.FormulaParseRequests[i].ErrorResponse)" readonly="readonly"></td>
                 </tr>
             }
 
@@ -39,6 +40,8 @@
     </div>
 
     <p><input type="button" id="addFormula" value="Add new tableau formula" onclick="addField();"/></p>
+    <p>Expected result: <select asp-for="ExpectedTableauType" name="@Html.Encode(nameof(Model.ExpectedTableauType))" asp-items="Html.GetEnumSelectList<TableauType>()">
+    </select></p>
     <p><input type="submit" value="Solve"/></p>
 </form>
 
@@ -52,7 +55,11 @@
 
 <style>
     #formulaRow {
-        width: 300px
+        width: 350px
+    }
+    #errorRow {
+        width: 350px;
+        font-size: 9px;
     }
 
 </style>
@@ -96,7 +103,6 @@
         var currentRow = myTable.insertRow(-1);
 
         var linksBox = document.createElement("input");
-        linksBox.setAttribute("class", "text-box single-line");
         linksBox.setAttribute("id", "formulaRow");
         linksBox.setAttribute("name", "Formula[" + (currentIndex - 1) + "]");
         linksBox.setAttribute("type", "text");
@@ -119,6 +125,7 @@
 
         var errorResponse = document.createElement("input");
         errorResponse.setAttribute("type", "text");
+        errorResponse.setAttribute("id", "errorRow");
         errorResponse.setAttribute("name", "ErrorResponse[" + (currentIndex - 1)+ "]");
         errorResponse.setAttribute("value", "");
         errorResponse.setAttribute("readonly", "readonly");
@@ -127,6 +134,7 @@
         currentCell.appendChild(linksBox);
 
         currentCell = currentRow.insertCell(-1);
+        currentRow.setAttribute("style", "text-align:center;");
         currentCell.appendChild(hiddenBox);
         currentCell.appendChild(keywordsBox);
 

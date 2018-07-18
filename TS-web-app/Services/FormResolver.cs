@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -9,19 +10,19 @@ using TsWebApp.Model;
 namespace TsWebApp.Services {
 
     public class FormResolver {
-        
+
         public static UnparsedTableauInput ResolveForm(IFormCollection requestForm) {
 
             var formRows = new List<FormRow>();
             uint index = 0;
-               
-            while (TryGetFormRow(out var formRow, index, requestForm)) { 
+
+            while (TryGetFormRow(out var formRow, index, requestForm)) {
 
                 formRows.Add(formRow);
                 ++index;
             }
 
-            var formulaParseRequests = 
+            var formulaParseRequests =
                 from row in formRows
                 let formulaParseRequest = new FormulaParseRequest() {
                     ErrorResponse = row.ErrorResponse,
@@ -29,8 +30,16 @@ namespace TsWebApp.Services {
                 }
                 select formulaParseRequest;
 
+            var si = nameof(UnparsedTableauInput.ExpectedTableauType);
+
+            if (!(requestForm.TryGetValue($"{nameof(UnparsedTableauInput.ExpectedTableauType)}", out var expectedType) 
+                && Enum.TryParse(typeof(TableauType), expectedType[0], out var tableauExpectedType))) {
+                throw new FormResolverException();
+            }
+
             var unparsedTableauInput = new UnparsedTableauInput() {
-                FormulaParseRequests = new List<FormulaParseRequest>(formulaParseRequests)
+                FormulaParseRequests = new List<FormulaParseRequest>(formulaParseRequests),
+                ExpectedTableauType = (TableauType) tableauExpectedType
             };
  
             if (unparsedTableauInput.HasAtleastOneParseRequest()) {
@@ -51,7 +60,7 @@ namespace TsWebApp.Services {
 
                 formRow = new FormRow() {
                     Formula = formula,
-                    TruthLabel = StringToTruthValueExtension.ConvertFromString(truthLabel),
+                    TruthLabel = truthLabel.ToArray()[0].ConvertFromString(),
                     ErrorResponse = errorResponse
                 };
                 return true;

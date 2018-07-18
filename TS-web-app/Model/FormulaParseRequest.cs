@@ -8,6 +8,8 @@ namespace TsWebApp.Model {
         public IList<FormulaParseRequest> FormulaParseRequests { get; set; } 
             = new List<FormulaParseRequest>();
 
+        public TableauType ExpectedTableauType { get; set; }
+
         public bool HasAtleastOneParseRequest() {
             return FormulaParseRequests.Count != 0;
         }

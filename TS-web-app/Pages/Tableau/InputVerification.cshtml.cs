@@ -44,7 +44,7 @@ namespace TsWebApp.Pages.Tableau {
                 HttpContext.Session.SetString(HttpContext.Session.Id, JsonConvert.SerializeObject(tableauSolution));
                 var result = EventService.LogSolutionEvent(unparsedTableauInput, tableauSolution, HttpContext.User);
                 return RedirectToPage("SolutionView",
-                    new { id = result.Id, session = HttpContext.Session.Id, solutionViewType = SolutionViewModel.SolutionViewType.Text });
+                    new { id = result.Id, session = HttpContext.Session.Id, solutionViewType = SolutionViewType.Text });
             }
             catch (FormResolverException) {
                 return RedirectToPage("../Error");

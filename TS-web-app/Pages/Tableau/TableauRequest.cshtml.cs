@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TableauxIO;
 using TsWebApp.Model;
 using TsWebApp.Services;
 
 namespace TsWebApp.Pages.Tableau {
+
     public class TableauRequestModel : PageModel {
 
         public IList<FormulaParseRequest> FormulaParseRequests { get; set; }
+        public TableauType ExpectedTableauType { get; set; }
 
         private FormResolver FormResolver { get; set; }
 
@@ -28,8 +29,10 @@ namespace TsWebApp.Pages.Tableau {
             };
         }
         public void OnPost() {
-            
-           FormulaParseRequests = FormResolver.ResolveForm(HttpContext.Request.Form).FormulaParseRequests;
+
+            var unparsedTableauInput = FormResolver.ResolveForm(HttpContext.Request.Form);
+            FormulaParseRequests = unparsedTableauInput.FormulaParseRequests;
+            ExpectedTableauType = unparsedTableauInput.ExpectedTableauType;
         }
     }
 }
