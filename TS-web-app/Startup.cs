@@ -29,8 +29,7 @@ namespace TsWebApp {
 
             services.AddSession();
             
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase()
+            services.AddDbContext<ApplicationDbContext>(
             );
 
             services.AddDefaultIdentity<IdentityUser>()
