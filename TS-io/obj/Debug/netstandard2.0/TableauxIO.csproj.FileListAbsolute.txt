@@ -1,0 +1,12 @@
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\bin\Debug\netstandard2.0\TableauxIO.deps.json
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\bin\Debug\netstandard2.0\TableauxIO.dll
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\bin\Debug\netstandard2.0\TableauxIO.pdb
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\bin\Debug\netstandard2.0\Newtonsoft.Json.dll
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\bin\Debug\netstandard2.0\Newtonsoft.Json.xml
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\obj\Debug\netstandard2.0\TableauxIO.csprojAssemblyReference.cache
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\obj\Debug\netstandard2.0\TableauxIO.csproj.CoreCompileInputs.cache
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\obj\Debug\netstandard2.0\TableauxIO.AssemblyInfoInputs.cache
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\obj\Debug\netstandard2.0\TableauxIO.AssemblyInfo.cs
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\obj\Debug\netstandard2.0\TableauxIO.csproj.CopyComplete
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\obj\Debug\netstandard2.0\TableauxIO.dll
+C:\Users\Sykoj\TS\TS-web-api\TableauxIO\obj\Debug\netstandard2.0\TableauxIO.pdb

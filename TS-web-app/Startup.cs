@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -7,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using TableauxIO.JsonSerialization;
+using Ts.IO.JsonSerialization;
+using Ts.Solver;
+using TsWebApp.Controllers;
 using TsWebApp.Data;
 using TsWebApp.Services;
 
@@ -22,24 +25,29 @@ namespace TsWebApp {
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services) {
+
             services.Configure<CookiePolicyOptions>(options => {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddSession();
-            
-            services.AddDbContext<ApplicationDbContext>(
-            );
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString(""))
+                );
+            }
+            else {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseInMemoryDatabase()
+                );
+            }
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings() {
-                SerializationBinder = new TableauJsonBinder(),
-                TypeNameHandling = TypeNameHandling.Auto
-            };
+            JsonConvert.DefaultSettings = GetSerializerSettings;
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredUniqueChars = 0;
@@ -50,16 +58,17 @@ namespace TsWebApp {
                 options.Password.RequiredLength = 4;
             });
 
-            services.AddSingleton<TableauSolver>();
-            services.AddSingleton<IFormulaParser, FormulaParser>();
-            services.AddSingleton<ITableauSolver, TableauSolver>();
+            services.AddSingleton<Solver>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
             services.AddSingleton<TextViewService>();
             services.AddSingleton<SvgViewService>();
+            services.AddTransient<TsController>();
 
-            services.AddMvc()
+            services
+                .AddMvc()
+                .AddJsonOptions(JsonSetup)
                 .AddRazorPagesOptions(options => {
                     options.Conventions.AddPageRoute("/Tableau/TableauRequest", string.Empty);
                 })
@@ -84,6 +93,24 @@ namespace TsWebApp {
             app.UseAuthentication();
 
             app.UseMvc();
+        }
+
+        private static void JsonSetup(MvcJsonOptions options) {
+
+            var serializerSettings = GetSerializerSettings();
+
+            options.SerializerSettings.SerializationBinder = serializerSettings.SerializationBinder;
+            options.SerializerSettings.TypeNameHandling = serializerSettings.TypeNameHandling;
+            options.SerializerSettings.Formatting = serializerSettings.Formatting;
+        }
+
+        private static JsonSerializerSettings GetSerializerSettings() {
+
+            return new JsonSerializerSettings() {
+                SerializationBinder = new TableauJsonBinder(),
+                TypeNameHandling = TypeNameHandling.Auto,
+                Formatting = Formatting.None
+            };
         }
     }
 }

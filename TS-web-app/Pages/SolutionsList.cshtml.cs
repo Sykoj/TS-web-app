@@ -13,7 +13,7 @@ namespace TsWebApp.Pages {
 
     public class SolutionsListModel : PageModel {
 
-        public IQueryable<TableauSolutionEvent> FilteredUserRequests { get; set; }
+        public IQueryable<AppSolutionEventRequest> FilteredUserRequests { get; set; }
         public TableauType ExpectedTableauType { get; set; }
         public TableauType TableauType { get; set; }
         public SortOrder SortOrder { get; set; }
@@ -57,13 +57,13 @@ namespace TsWebApp.Pages {
 
     public static class IQueryableExtension {
 
-        public static IQueryable<TableauSolutionEvent> OrderByTime(this IQueryable<TableauSolutionEvent> query, SortOrder order) {
+        public static IQueryable<AppSolutionEventRequest> OrderByTime(this IQueryable<AppSolutionEventRequest> query, SortOrder order) {
             
             switch(order) {
                 case SortOrder.Newest:
-                    return query.OrderByDescending(r => r.Date);
+                    return query.OrderByDescending(r => r.TableauSolution.RequestDateTime);
                 case SortOrder.Oldest:
-                    return query.OrderBy(r => r.Date);
+                    return query.OrderBy(r => r.TableauSolution.RequestDateTime);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(order), order, null);
             }

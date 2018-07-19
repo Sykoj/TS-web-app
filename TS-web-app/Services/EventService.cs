@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using TsWebApp.Data;
 using TsWebApp.Model;
-using Microsoft.EntityFrameworkCore;
 
 namespace TsWebApp.Services {
 
@@ -14,34 +13,52 @@ namespace TsWebApp.Services {
             DbContext = dbContext;
         }
 
-        public TableauSolutionEvent LogSolutionEvent(UnparsedTableauInput tableauInput, TableauOutput tableauOutput, ClaimsPrincipal user) {
+        public AppSolutionEventRequest CreateAppSolutionRequest(AppSolutionEventRequest appSolutionEventRequest, ClaimsPrincipal user) {
 
-            var username = (user.Identity.IsAuthenticated) ? user.Identity.Name : "default";
-            var tableauRequest = new TableauSolutionEvent() {
-                RawFormulas = (from f in tableauInput.FormulaParseRequests select f.UnparsedTableauNode).ToList(),
-                User = username,
-                SolverRequestId = tableauOutput.RequestId,
-                Date = tableauOutput.RequestDate,
-                ExpectedTableauType = tableauInput.ExpectedTableauType,
-                TableauType = tableauOutput.TableauType
-            };
-            DbContext.TableauRequests.Add(tableauRequest);
+            appSolutionEventRequest.User = (user.Identity.IsAuthenticated) ? user.Identity.Name : "default";
+            var entity = DbContext.AppSolutionRequests.Add(appSolutionEventRequest);
             DbContext.SaveChanges();
-            return tableauRequest;
+            return entity.Entity;
         }
 
-        internal IQueryable<TableauSolutionEvent> GetRequestsMadeByUser(string name) {
+        internal IQueryable<AppSolutionEventRequest> GetRequestsMadeByUser(string name) {
 
-            return DbContext.TableauRequests
-                  .Where(r => r.User == name)
-                  .Include(r => r.RawFormulas);
+            var serializedSolutions = DbContext.TableauSolutions;
+            var requests = DbContext.AppSolutionRequests.Where(r => r.User == name);
+
+            return from s in serializedSolutions
+                from r in requests
+                where s.SolutionId == r.SolutionId
+                select LoadSolution(r, s);
         }
 
-        public TableauSolutionEvent LoadTableauSolutionEventById(ulong id) {
+        private AppSolutionEventRequest LoadSolution(AppSolutionEventRequest request, TableauSolutionSerialized serializedSolution) {
 
-            var solutionEvent = DbContext.TableauRequests.Find(id);
-            DbContext.Entry(solutionEvent).Collection(p => p.RawFormulas).Load();
-            return solutionEvent;
+            var solution = serializedSolution.DeserializeSolution();
+            request.TableauSolution = solution;
+            return request;
+        }
+
+        public AppSolutionEventRequest LoadAppSolutionEventById(ulong requestId) {
+            
+            var solution = DbContext.AppSolutionRequests.Find(requestId);
+            var serializedSolution = DbContext.TableauSolutions.Find(solution.SolutionId);
+            return LoadSolution(solution, serializedSolution);
+        }
+
+        public TableauSolution LogTableauSolution(TableauSolution tableauSolution) {
+
+            var solutionDb = TableauSolutionSerialized.SerializeSolution(tableauSolution);
+            var loadedSolutionDb = DbContext.TableauSolutions.Add(solutionDb).Entity;
+            tableauSolution.SolutionId = loadedSolutionDb.SolutionId;
+            DbContext.SaveChanges();
+            return tableauSolution;
+        }
+
+        public TableauSolution GetTableauRequest(ulong solutionId) {
+
+            var solutionDb = DbContext.TableauSolutions.Find(solutionId);
+            return solutionDb.DeserializeSolution();
         }
     }
 }

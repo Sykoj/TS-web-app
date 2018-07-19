@@ -1,7 +1,7 @@
 ﻿@page
 @using Model
-@using TableauxIO
-@model TsWebApp.Pages.SolutionsListModel
+@using Services
+@model SolutionsListModel
 @{
     ViewData["Title"] = "Your solutions";
 
@@ -36,25 +36,27 @@
 
             @foreach (var request in Model.FilteredUserRequests) {
                 <tr>
-                    <td>@Html.Encode(request.Date)</td>
+                    <td>@Html.Encode(request.TableauSolution.RequestDateTime)</td>
                     <td>
                         <ul>
-                            @foreach (var unparsedTableauNode in request.RawFormulas) {
+                            @foreach (var unparsedTableauNode in request.TableauSolution.TableauInput.GetAllNodes()) {
 
-                                <li>
-                                    <div>@Html.Encode(unparsedTableauNode.TruthLabel)</div>@Html.Encode(unparsedTableauNode.Formula)</li>
+                            <li>
+                                <div>@Html.Encode(unparsedTableauNode.TruthValue)</div>
+                                @Html.Encode(FormulaRawInputView.GetFormulaView(unparsedTableauNode.Formula))
+                            </li>
                             }
                         </ul>
                     </td>
                     <td>
                         @{
-                            var link = $"Tableau/SolutionView?id={request.Id}&solutionViewType=Text";
+                            var link = $"Tableau/SolutionView?requestId={request.RequestId}&solutionViewType=Text";
                             var url = $"<a href={link}>Show solution as text</a>";
                         }
                         @Html.Raw(url)
                         <br>
                         @{
-                            link = $"Tableau/SolutionView?id={request.Id}&solutionViewType=Svg";
+                            link = $"Tableau/SolutionView?requestId={request.RequestId}&solutionViewType=Svg";
                             url = $"<a href={link}>Show solution as svg</a>";
                         }
                         @Html.Raw(url)

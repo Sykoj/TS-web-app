@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TsWebApp.Services;
-using TableauxIO;
+using Ts.IO;
 
 namespace TsWebApp.Pages.Tableau {
 
