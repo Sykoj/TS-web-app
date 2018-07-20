@@ -31,7 +31,7 @@ namespace TsWebApp.Pages {
             SortOrder = sortOrder;
 
             if (!HttpContext.User.Identity.IsAuthenticated) {
-                return RedirectToPage("/Error");
+                return RedirectToPage("/ErrorAnon");
             }
 
             var userRequests
