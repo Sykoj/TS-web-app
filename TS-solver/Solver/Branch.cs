@@ -7,7 +7,7 @@ namespace Ts.Solver {
     public class Branch {
 
         private HashSet<Literal> UsedVariables { get; set; } = new HashSet<Literal>();
-        private Stack<BranchItem> UndevelopedFormulas { get; set; } = new Stack<BranchItem>();
+        private Queue<BranchItem> UndevelopedFormulas { get; set; } = new Queue<BranchItem>();
         private Queue<BranchItem> UnusedAxioms { get; set; } = new Queue<BranchItem>();
 
         internal SolutionNode Develop() {
@@ -25,7 +25,7 @@ namespace Ts.Solver {
                 return (new ContradictionClosure(), TruthValue.True);
                 
             } if (UndevelopedFormulas.Count != 0) {
-                return UndevelopedFormulas.Pop().GetValueTuple();
+                return UndevelopedFormulas.Dequeue().GetValueTuple();
                 
             } if (UnusedAxioms.Count != 0) {
                 return UnusedAxioms.Dequeue().GetValueTuple();
@@ -36,7 +36,7 @@ namespace Ts.Solver {
         }
 
         internal void AddNewFormula(BranchItem newBranchItem) {
-             UndevelopedFormulas.Push(newBranchItem);
+             UndevelopedFormulas.Enqueue(newBranchItem);
         }
 
         internal void AddAxiom(BranchItem newBranchItem) {
@@ -50,7 +50,7 @@ namespace Ts.Solver {
         internal Branch GetDeepCopy() {
             return new Branch() {
                 UsedVariables = new HashSet<Literal>(UsedVariables),
-                UndevelopedFormulas = new Stack<BranchItem>(UndevelopedFormulas),
+                UndevelopedFormulas = new Queue<BranchItem>(UndevelopedFormulas),
                 UnusedAxioms = new Queue<BranchItem>(UnusedAxioms)
             };
         }

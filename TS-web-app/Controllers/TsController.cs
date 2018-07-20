@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Ts.IO;
 using Ts.Solver;
 using TsWebApp.Model;
@@ -24,7 +25,8 @@ namespace TsWebApp.Controllers {
 
             var tableauRequest = new TableauSolution() {
                 SolutionNode = solutionTableau,
-                TableauInput = tableauInput
+                TableauInput = tableauInput,
+                RequestDateTime = DateTime.Now
             };
             
             return EventService.LogTableauSolution(tableauRequest);
