@@ -35,8 +35,7 @@ namespace TsWebApp {
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString(
-                        Environment.GetEnvironmentVariable("SQLAZURECONNSTR_MS_TableConnectionString")))
+                    options.UseSqlServer(Environment.GetEnvironmentVariable("SQLAZURECONNSTR_MS_TableConnectionString"))
                 );
             }
             else {
