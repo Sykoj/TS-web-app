@@ -18,11 +18,13 @@ namespace TsWebApp {
 
     public class Startup {
 
-        public Startup(IConfiguration configuration) {
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment) {
             Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
 
         public void ConfigureServices(IServiceCollection services) {
 
@@ -33,12 +35,11 @@ namespace TsWebApp {
 
             services.AddSession();
 
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") {
+            if (HostingEnvironment.IsProduction()) {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Environment.GetEnvironmentVariable("SQLAZURECONNSTR_MS_TableConnectionString"))
+                    options.UseSqlServer(Configuration.GetConnectionString("TS-database"))
                 );
-            }
-            else {
+            } else {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseInMemoryDatabase("testInMemoryDb")
                 );
