@@ -9,7 +9,7 @@ namespace Ts.IO {
         [JsonProperty("leftFormula")]
         public Formula LeftFormula { get; }
 
-        protected BinaryFormula(Formula rightFormula, Formula leftFormula) {
+        protected BinaryFormula(Formula leftFormula, Formula rightFormula) {
             RightFormula = rightFormula;
             LeftFormula = leftFormula;
         }

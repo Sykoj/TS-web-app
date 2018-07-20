@@ -24,8 +24,8 @@ namespace Ts.Solver.AtomicTableaux {
 
         protected override void HandleFalseCase(Branch branch) {
 
-            branch.AddNewFormula(new BranchItem(Implication.RightFormula, TruthValue.True));
-            branch.AddNewFormula(new BranchItem(Implication.LeftFormula, TruthValue.False));
+            branch.AddNewFormula(new BranchItem(Implication.LeftFormula, TruthValue.True));
+            branch.AddNewFormula(new BranchItem(Implication.RightFormula, TruthValue.False));
             
             ComputeRepresentingNode(branch);
         }
