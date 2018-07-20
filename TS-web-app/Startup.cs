@@ -35,12 +35,13 @@ namespace TsWebApp {
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString(""))
+                    options.UseSqlServer(Configuration.GetConnectionString(
+                        Environment.GetEnvironmentVariable("SQLAZURECONNSTR_MS_TableConnectionString")))
                 );
             }
             else {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase()
+                    options.UseInMemoryDatabase("testInMemoryDb")
                 );
             }
 
