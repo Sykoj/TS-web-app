@@ -81,3 +81,4 @@ C:\Users\Sykoj\TS\TS-web-app\TS-web-app\bin\Debug\netcoreapp2.1\TS-solver.dll
 C:\Users\Sykoj\TS\TS-web-app\TS-web-app\bin\Debug\netcoreapp2.1\TS-io.pdb
 C:\Users\Sykoj\TS\TS-web-app\TS-web-app\bin\Debug\netcoreapp2.1\TS-solver.pdb
 C:\Users\Sykoj\TS\TS-web-app\TS-web-app\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+C:\Users\Sykoj\TS\TS-web-app\TS-web-app\obj\Debug\netcoreapp2.1\Razor\Pages\ErrorAnon.g.cshtml.cs

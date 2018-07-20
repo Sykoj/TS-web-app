@@ -54,12 +54,6 @@
                             var url = $"<a href={link}>Show solution as text</a>";
                         }
                         @Html.Raw(url)
-                        <br>
-                        @{
-                            link = $"Tableau/SolutionView?requestId={request.RequestId}&solutionViewType=Svg";
-                            url = $"<a href={link}>Show solution as svg</a>";
-                        }
-                        @Html.Raw(url)
                     </td>
                 </tr>
             }
