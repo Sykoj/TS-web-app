@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Ts.Solver;
 using TsWebApp.Controllers;
 using TsWebApp.Exceptions;
@@ -9,6 +12,9 @@ using TsWebApp.Services;
 namespace TsWebApp.Pages.Tableau {
 
     public class TableauSolutionModel : PageModel {
+
+        public static readonly string SolutionName = typeof(TableauSolution).FullName;
+        public static readonly string RequestName = typeof(AppSolutionEventRequest).FullName;
 
         public UnparsedTableauInput ErrorResponseForm { get; set; }
 
@@ -29,7 +35,7 @@ namespace TsWebApp.Pages.Tableau {
             TableauSolverService = tableauSolverService;
         }
 
-        public IActionResult OnPost() {
+        public async Task<IActionResult> OnPost() {
             
             try {
                 var unparsedTableauInput = FormResolver.ResolveForm(HttpContext.Request.Form);
@@ -48,10 +54,13 @@ namespace TsWebApp.Pages.Tableau {
                     SolutionId = tableauSolution.SolutionId
                 };
 
-                var result = EventService.CreateAppSolutionRequest(userRequest, HttpContext.User);
-
+                HttpContext.Session.SetString(SolutionName, JsonConvert.SerializeObject(tableauSolution));
+                HttpContext.Session.SetString(RequestName, JsonConvert.SerializeObject(userRequest));
+                
+                await EventService.CreateAppSolutionRequest(userRequest, HttpContext.User);
+                    
                 return RedirectToPage("SolutionView",
-                    new { requestId = result.RequestId, solutionViewType = SolutionViewType.Text });
+                    new { isSession = true, solutionViewType = SolutionViewType.Text });
             }
             catch (FormResolverException) {
                 return RedirectToPage("../Error");
