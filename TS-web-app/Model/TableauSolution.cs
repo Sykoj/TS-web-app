@@ -17,7 +17,15 @@ namespace TsWebApp.Model {
         public SolutionNode SolutionNode { get; set; }
 
         [JsonProperty("requestDate")]
-        [JsonConverter(typeof(IsoDateTimeConverter))]
+        [JsonConverter(typeof(IsoDateTimeFormattedConverter))]
         public DateTime RequestDateTime { get; set; }
+
+    }
+
+    public class IsoDateTimeFormattedConverter : IsoDateTimeConverter {
+
+        public IsoDateTimeFormattedConverter() {
+            base.DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        }
     }
 }
