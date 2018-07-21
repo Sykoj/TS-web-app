@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using TsWebApp.Data;
 using TsWebApp.Model;
 
@@ -13,11 +15,11 @@ namespace TsWebApp.Services {
             DbContext = dbContext;
         }
 
-        public AppSolutionEventRequest CreateAppSolutionRequest(AppSolutionEventRequest appSolutionEventRequest, ClaimsPrincipal user) {
+        public async Task<AppSolutionEventRequest> CreateAppSolutionRequest(AppSolutionEventRequest appSolutionEventRequest, ClaimsPrincipal user) {
 
             appSolutionEventRequest.User = (user.Identity.IsAuthenticated) ? user.Identity.Name : "default";
             var entity = DbContext.AppSolutionRequests.Add(appSolutionEventRequest);
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync();
             return entity.Entity;
         }
 
