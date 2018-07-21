@@ -39,9 +39,16 @@ namespace TsWebApp {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("TS-database"))
                 );
-            } else {
+            }
+
+            if (HostingEnvironment.IsDevelopment()) {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("testInMemoryDb")
+                    options.UseSqlServer(Configuration.GetConnectionString("TS-database-dev"))
+                );
+            }
+            else {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseInMemoryDatabase("TS-database-test")
                 );
             }
 
