@@ -23,7 +23,7 @@ namespace TsWebApp.Pages.Tableau {
         public void OnGet(ulong requestId, SolutionViewType solutionViewType) {
 
             ViewType = solutionViewType;
-            AppSolutionEventRequest = EventService.LoadAppSolutionEventById(requestId);
+            AppSolutionEventRequest = EventService.LoadAppSolutionEventById((int) requestId);
         }
     }
 }
