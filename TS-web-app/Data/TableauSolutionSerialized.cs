@@ -11,7 +11,7 @@ namespace TsWebApp.Data {
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public ulong SolutionId { get; set; }
+        public int SolutionId { get; set; }
         public string TableauInputSerialized { get; set; }
         public string SolutionNodeSerialized { get; set; }
         public DateTime RequestDateTime { get; set; }

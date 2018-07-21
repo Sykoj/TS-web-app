@@ -39,7 +39,7 @@ namespace TsWebApp.Services {
             return request;
         }
 
-        public AppSolutionEventRequest LoadAppSolutionEventById(ulong requestId) {
+        public AppSolutionEventRequest LoadAppSolutionEventById(int requestId) {
             
             var solution = DbContext.AppSolutionRequests.Find(requestId);
             var serializedSolution = DbContext.TableauSolutions.Find(solution.SolutionId);
@@ -50,12 +50,12 @@ namespace TsWebApp.Services {
 
             var solutionDb = TableauSolutionSerialized.SerializeSolution(tableauSolution);
             var loadedSolutionDb = DbContext.TableauSolutions.Add(solutionDb).Entity;
-            tableauSolution.SolutionId = loadedSolutionDb.SolutionId;
             DbContext.SaveChanges();
+            tableauSolution.SolutionId = loadedSolutionDb.SolutionId;
             return tableauSolution;
         }
 
-        public TableauSolution GetTableauRequest(ulong solutionId) {
+        public TableauSolution GetTableauRequest(int solutionId) {
 
             var solutionDb = DbContext.TableauSolutions.Find(solutionId);
             return solutionDb.DeserializeSolution();

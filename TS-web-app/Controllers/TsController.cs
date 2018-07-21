@@ -35,7 +35,7 @@ namespace TsWebApp.Controllers {
         [HttpGet("solutions/{solutionId}")]
         public TableauSolution GetResponse([FromRoute] ulong solutionId) {
 
-            return EventService.GetTableauRequest(solutionId);
+            return EventService.GetTableauRequest((int) solutionId);
         }
     }
 }

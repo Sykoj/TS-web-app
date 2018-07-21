@@ -7,8 +7,8 @@ namespace TsWebApp.Model {
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public ulong RequestId { get; set; }
-        public ulong SolutionId { get; set; }
+        public int RequestId { get; set; }
+        public int SolutionId { get; set; }
         [NotMapped]
         public TableauSolution TableauSolution { get; set; }
         public string User { get; set; }
