@@ -35,7 +35,7 @@ namespace TsWebApp.Controllers {
             return Ok(tableauSolution);
         }
 
-        [HttpGet("solutions/{solutionId}")]
+        [HttpGet("solution/{solutionId}")]
         public IActionResult GetResponse([FromRoute] int solutionId) {
 
             var solution = EventService.GetTableauRequest(solutionId);
