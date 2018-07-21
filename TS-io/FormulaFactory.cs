@@ -1,4 +1,6 @@
-﻿namespace Ts.IO {
+﻿using Ts.IO.Utilities;
+
+namespace Ts.IO {
 
     public static class FormulaFactory {
 

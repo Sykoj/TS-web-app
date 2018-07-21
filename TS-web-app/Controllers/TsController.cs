@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ts.IO;
-using Ts.Solver;
-using TsWebApp.Model;
 using TsWebApp.Services;
+using TsWebApp.Extensions;
+using TsWebApp.Utilities;
 
 namespace TsWebApp.Controllers {
 
@@ -11,31 +10,40 @@ namespace TsWebApp.Controllers {
     public class TsController : Controller {
 
         private EventService EventService { get; }
-        private Solver TableauSolver { get; }
+        private TableauSolutionService TableauSolutionService { get; } 
+        private FormulaValidator FormulaValidator { get; }
 
-        public TsController(Solver tableauSolver, EventService eventService) {
+        public TsController(
+            TableauSolutionService tableauSolutionService,
+            EventService eventService,
+            FormulaValidator formulaValidator) {
             EventService = eventService;
-            TableauSolver = tableauSolver;
+            TableauSolutionService = tableauSolutionService;
+            FormulaValidator = formulaValidator;
         }
 
         [HttpPost("solve-tableau")]
-        public TableauSolution GetSolution([FromBody] TableauInput tableauInput) {
+        public IActionResult GetSolution([FromBody] TableauInput tableauInput) {
 
-            var solutionTableau = TableauSolver.Solve(tableauInput);
+            if (tableauInput == null || !tableauInput.Root.Formula.Apply(FormulaValidator)) {
+                return BadRequest("The request could not be understood by the server due to malformed syntax.");
+            }
 
-            var tableauRequest = new TableauSolution() {
-                SolutionNode = solutionTableau,
-                TableauInput = tableauInput,
-                RequestDateTime = DateTime.Now
-            };
-            
-            return EventService.LogTableauSolution(tableauRequest);
+            var tableauSolution = TableauSolutionService.ComputeTableauSolution(tableauInput);
+            EventService.LogTableauSolution(tableauSolution);
+
+            return Ok(tableauSolution);
         }
 
         [HttpGet("solutions/{solutionId}")]
-        public TableauSolution GetResponse([FromRoute] ulong solutionId) {
+        public IActionResult GetResponse([FromRoute] int solutionId) {
 
-            return EventService.GetTableauRequest((int) solutionId);
+            var solution = EventService.GetTableauRequest(solutionId);
+            if (solution == null) {
+                return NotFound($"Tableau solution with ID={solutionId} not found.");
+            }
+
+            return Ok(solution);
         }
     }
 }

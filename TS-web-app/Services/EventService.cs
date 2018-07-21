@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TsWebApp.Data;
@@ -60,7 +59,7 @@ namespace TsWebApp.Services {
         public TableauSolution GetTableauRequest(int solutionId) {
 
             var solutionDb = DbContext.TableauSolutions.Find(solutionId);
-            return solutionDb.DeserializeSolution();
+            return solutionDb?.DeserializeSolution();
         }
     }
 }

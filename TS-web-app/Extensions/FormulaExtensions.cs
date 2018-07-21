@@ -1,6 +1,7 @@
 ﻿using Ts.IO;
+using TsWebApp.Utilities;
 
-namespace TsWebApp.TableauViews {
+namespace TsWebApp.Extensions {
 
     public static class FormulaExtensions {
 
