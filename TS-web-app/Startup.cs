@@ -13,6 +13,7 @@ using Ts.Solver;
 using TsWebApp.Controllers;
 using TsWebApp.Data;
 using TsWebApp.Services;
+using TsWebApp.Utilities;
 
 namespace TsWebApp {
 
@@ -43,7 +44,8 @@ namespace TsWebApp {
 
             if (HostingEnvironment.IsDevelopment()) {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("TS-database-dev"))
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("TS-database-dev"))
                 );
             }
             else {
@@ -67,12 +69,14 @@ namespace TsWebApp {
             });
 
             services.AddSingleton<Solver>();
+            services.AddSingleton<TableauSolutionService>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
             services.AddSingleton<TextViewService>();
             services.AddSingleton<SvgViewService>();
             services.AddTransient<TsController>();
+            services.AddSingleton<FormulaValidator>();
 
             services
                 .AddMvc()

@@ -30,8 +30,6 @@ namespace TsWebApp.Services {
                 }
                 select formulaParseRequest;
 
-            var si = nameof(UnparsedTableauInput.ExpectedTableauType);
-
             if (!(requestForm.TryGetValue($"{nameof(UnparsedTableauInput.ExpectedTableauType)}", out var expectedType) 
                 && Enum.TryParse(typeof(TableauType), expectedType[0], out var tableauExpectedType))) {
                 throw new FormResolverException();

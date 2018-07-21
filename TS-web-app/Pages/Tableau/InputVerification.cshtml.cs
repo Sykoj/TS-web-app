@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using Ts.Solver;
-using TsWebApp.Controllers;
 using TsWebApp.Exceptions;
 using TsWebApp.Model;
 using TsWebApp.Services;
@@ -18,21 +16,18 @@ namespace TsWebApp.Pages.Tableau {
 
         public UnparsedTableauInput ErrorResponseForm { get; set; }
 
-        private TsController Controller { get; set; }
-        private ConversionService ConversionService { get; set; }
-        private EventService EventService { get; set; }
-        private Solver TableauSolverService { get; set; }
+        private ConversionService ConversionService { get; }
+        private EventService EventService { get; }
+        private TableauSolutionService TableauSolutionService { get; }
 
         public TableauSolutionModel(
-            TsController controller,
             ConversionService conversionService,
             EventService eventService,
-            Solver tableauSolverService) {
+            TableauSolutionService tableauSolutionService) {
 
-            Controller = controller;
             ConversionService = conversionService;
             EventService = eventService;
-            TableauSolverService = tableauSolverService;
+            TableauSolutionService = tableauSolutionService;
         }
 
         public async Task<IActionResult> OnPost() {
@@ -46,7 +41,8 @@ namespace TsWebApp.Pages.Tableau {
                     return Page();
                 }
 
-                var tableauSolution = Controller.GetSolution(tableauInput);
+                var tableauSolution = TableauSolutionService.ComputeTableauSolution(tableauInput);
+                EventService.LogTableauSolution(tableauSolution);
 
                 var userRequest = new AppSolutionEventRequest() {                    
                     TableauType = TableauSolutionCategorizer.CategorizeTableauSolution(tableauSolution.SolutionNode),

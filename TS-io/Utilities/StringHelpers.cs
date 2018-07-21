@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Ts.IO {
+namespace Ts.IO.Utilities {
 
     internal static class StringExtensions {
 

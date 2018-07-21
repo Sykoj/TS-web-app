@@ -1,7 +1,7 @@
 ﻿using System;
 using Ts.IO;
 
-namespace TsWebApp.TableauViews {
+namespace TsWebApp.Extensions {
 
     public static class TableauIoExtensions {
 
