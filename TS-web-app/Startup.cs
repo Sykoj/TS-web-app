@@ -75,7 +75,6 @@ namespace Ts.App {
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
             services.AddSingleton<TextViewService>();
-            services.AddSingleton<SvgViewService>();
             services.AddTransient<TsController>();
             services.AddSingleton<FormulaValidator>();
 
