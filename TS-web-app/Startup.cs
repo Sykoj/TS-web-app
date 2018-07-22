@@ -12,6 +12,7 @@ using Ts.App.Controllers;
 using Ts.App.Data;
 using Ts.App.Services;
 using Ts.App.Utilities;
+using Ts.IO;
 using Ts.IO.JsonSerialization;
 
 namespace Ts.App {
@@ -68,6 +69,7 @@ namespace Ts.App {
             });
 
             services.AddSingleton<Solver.Solver>();
+            services.AddSingleton<IFormulaFactory, FormulaFactory>();
             services.AddSingleton<TableauSolutionService>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();

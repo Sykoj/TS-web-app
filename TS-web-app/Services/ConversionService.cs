@@ -10,7 +10,12 @@ using Ts.IO.Parser;
 namespace Ts.App.Services {
 
     public class ConversionService {
-        
+
+        private IFormulaFactory FormulaFactory { get; }
+
+        public ConversionService(IFormulaFactory formulaFactory) {
+            FormulaFactory = formulaFactory;
+        }
 
         public (TableauInput tableauInput, UnparsedTableauInput unparsedModifiedTableauInput)
             ParseTableauInput(UnparsedTableauInput unparsedTableauInput) {
