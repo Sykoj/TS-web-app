@@ -12,7 +12,8 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ConnectionStrings__TS-database-dev": "Server=tcp:ts-persistence.database.windows.net,1433;Initial Catalog=TS-database-dev;Persist Security Info=False;User ID=sykorajak;Password=lanigiro16114A;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "TS_web_app": {

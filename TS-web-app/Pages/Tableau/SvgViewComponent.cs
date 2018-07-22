@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Ts.App.Services;
+using Ts.App.TableauViews.SvgView;
 using Ts.IO;
-using TsWebApp.Services;
-using TsWebApp.TableauViews;
 
-namespace TsWebApp.Pages.Tableau {
+namespace Ts.App.Pages.Tableau {
 
     public class SvgViewComponent : ViewComponent {
 

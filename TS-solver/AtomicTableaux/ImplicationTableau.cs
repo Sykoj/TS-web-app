@@ -6,9 +6,9 @@ namespace Ts.Solver.AtomicTableaux {
         
         private ImplicationFormula Implication { get; }
         
-        internal ImplicationTableau(ImplicationFormula formula, TruthValue truthValue) {
+        internal ImplicationTableau(ImplicationFormula formula, TruthLabel truthLabel) {
             Formula = Implication = formula;
-            TruthValue = truthValue;
+            TruthLabel = truthLabel;
         }
 
         protected override void HandleTrueCase(Branch branch) {
@@ -16,16 +16,16 @@ namespace Ts.Solver.AtomicTableaux {
             var leftBranch = branch;
             var rigthBranch = branch.GetDeepCopy();
            
-            leftBranch.AddNewFormula(new BranchItem(Implication.LeftFormula, TruthValue.False));
-            rigthBranch.AddNewFormula(new BranchItem(Implication.RightFormula, TruthValue.True));
+            leftBranch.AddNewFormula(new BranchItem(Implication.LeftSubformula, TruthLabel.False));
+            rigthBranch.AddNewFormula(new BranchItem(Implication.RightSubformula, TruthLabel.True));
             
             ComputeRepresentingNode(leftBranch, rigthBranch);
         }
 
         protected override void HandleFalseCase(Branch branch) {
 
-            branch.AddNewFormula(new BranchItem(Implication.LeftFormula, TruthValue.True));
-            branch.AddNewFormula(new BranchItem(Implication.RightFormula, TruthValue.False));
+            branch.AddNewFormula(new BranchItem(Implication.LeftSubformula, TruthLabel.True));
+            branch.AddNewFormula(new BranchItem(Implication.RightSubformula, TruthLabel.False));
             
             ComputeRepresentingNode(branch);
         }

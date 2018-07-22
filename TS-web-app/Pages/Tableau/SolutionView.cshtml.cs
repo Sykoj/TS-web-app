@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using TsWebApp.Model;
-using TsWebApp.Services;
+using Ts.App.Model;
+using Ts.App.Services;
 
-namespace TsWebApp.Pages.Tableau {
+namespace Ts.App.Pages.Tableau {
 
     public enum SolutionViewType { Text, Svg };
 
@@ -15,7 +13,7 @@ namespace TsWebApp.Pages.Tableau {
         
         public SolutionViewType ViewType { get; set; } 
 
-        public AppSolutionEventRequest AppSolutionEventRequest { get; set; }
+        public AppSolutionRequest AppSolutionRequest { get; set; }
         
         public EventService EventService { get; }
 
@@ -26,17 +24,17 @@ namespace TsWebApp.Pages.Tableau {
         [ActionName("SolutionView")]
         public void OnGet(ulong requestId, SolutionViewType solutionViewType, bool isSession = false) {
             ViewType = solutionViewType;
-            AppSolutionEventRequest = isSession ? LoadRequestFromSession() : EventService.LoadAppSolutionEventById((int) requestId);
+            AppSolutionRequest = isSession ? LoadRequestFromSession() : EventService.LoadAppSolutionEventById((int) requestId);
         }
 
-        private AppSolutionEventRequest LoadRequestFromSession() {
+        private AppSolutionRequest LoadRequestFromSession() {
 
-            AppSolutionEventRequest =
-                JsonConvert.DeserializeObject<AppSolutionEventRequest>(HttpContext.Session.GetString(TableauSolutionModel.RequestName));
-            AppSolutionEventRequest.TableauSolution =
+            AppSolutionRequest =
+                JsonConvert.DeserializeObject<AppSolutionRequest>(HttpContext.Session.GetString(TableauSolutionModel.RequestName));
+            AppSolutionRequest.TableauSolution =
                 JsonConvert.DeserializeObject<TableauSolution>(HttpContext.Session.GetString(TableauSolutionModel.SolutionName));
 
-            return AppSolutionEventRequest;
+            return AppSolutionRequest;
         }
     }
 }

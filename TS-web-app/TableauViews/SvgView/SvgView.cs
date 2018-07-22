@@ -1,8 +1,7 @@
-﻿using System;
-using TsWebApp.TableauViews.Layout;
-using System.Drawing;
+﻿using System.Drawing;
+using Ts.App.TableauViews.Layout;
 
-namespace TsWebApp.TableauViews {
+namespace Ts.App.TableauViews.SvgView {
 
     public abstract class SvgView : ILayoutable {
 

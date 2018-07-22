@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TsWebApp.Model;
+using Ts.App.Model;
 
-namespace TsWebApp.Data {
+namespace Ts.App.Data {
 
     public class ApplicationDbContext : IdentityDbContext {
 
-        public DbSet<AppSolutionEventRequest> AppSolutionRequests { get; set; }
-        public DbSet<TableauSolutionSerialized> TableauSolutions { get; set; }
+        public DbSet<AppSolutionRequest> AppSolutionRequests { get; set; }
+        public DbSet<TableauSolutionSerialized> TableauSerializedSolutions { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbContext(DbContextOptions options)
             : base(options) {
         }
     }

@@ -1,16 +1,9 @@
-﻿using Ts.IO;
-
-namespace Ts.Solver.AtomicTableaux {
+﻿namespace Ts.Solver.AtomicTableaux {
     
     internal class ContradictionTableau : AtomicTableau {
         
-        internal ContradictionTableau(ContradictionClosure formula, TruthValue truthValue) {
-            Formula = formula;
-            TruthValue = truthValue;
-        }
-        
         protected override void HandleTrueCase(Branch branch) {
-            CompleteBranch();
+            ContradictBranch();
         }
 
         protected override void HandleFalseCase(Branch branch) {

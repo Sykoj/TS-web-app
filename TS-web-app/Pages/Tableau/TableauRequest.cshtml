@@ -1,7 +1,8 @@
 ﻿@page
 @using Ts.IO
-@using Model
-@model TableauRequestModel
+@using Ts.App.Model
+@using Ts.App.Pages.Tableau
+@model Ts.App.Pages.Tableau.TableauRequestModel
 @{
     ViewData["Title"] = "Tableau Solver";
 }
@@ -24,7 +25,7 @@
 
             @for (var i = 0; i < Model.FormulaParseRequests.Count; ++i) {
 
-                var isTrue = (Model.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthValue.True) ? '1' : '0';
+                var isTrue = (Model.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthLabel.True) ? '1' : '0';
 
                 <tr>
                     <td><input id="formulaRow" name="Formula[@Html.Encode(i)]" type="text" value="@Html.Encode(Model.FormulaParseRequests[i].UnparsedTableauNode.Formula)" onchange="eraseErrorResponse(@Html.Encode(i))"></td>

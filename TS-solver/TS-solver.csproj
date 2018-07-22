@@ -4,6 +4,7 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+    <RootNamespace>Ts</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\TS-io\TS-io.csproj" />

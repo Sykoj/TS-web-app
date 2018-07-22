@@ -4,9 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Ts.IO;
 using Ts.IO.Parser;
-using TsWebApp.Exceptions;
-using TsWebApp.Model;
-using TsWebApp.Services;
+
 /*
 namespace TsWebApp.tests.Services {
 

@@ -3,19 +3,19 @@ using Ts.IO;
 
 namespace Ts.Solver.AtomicTableaux {
     
-    public abstract class AtomicTableau {
+    internal abstract class AtomicTableau {
 
         public SolutionNode RepresentingNode { get; private set; }
         protected Formula Formula { get; set; }
-        protected TruthValue TruthValue { get; set; }
+        protected TruthLabel TruthLabel { get; set; }
         
         internal void ResolveChildsFrom(Branch branch) {
             
-            switch (TruthValue) {
-                case TruthValue.True:
+            switch (TruthLabel) {
+                case TruthLabel.True:
                     HandleTrueCase(branch);
                     break;
-                case TruthValue.False:
+                case TruthLabel.False:
                     HandleFalseCase(branch);
                     break;
                 default:
@@ -29,7 +29,7 @@ namespace Ts.Solver.AtomicTableaux {
                 LeftChild = left.Develop(),
                 RightChild = right.Develop(),
                 Formula = Formula,
-                TruthValue = TruthValue
+                TruthLabel = TruthLabel
             };
         }
 
@@ -38,16 +38,18 @@ namespace Ts.Solver.AtomicTableaux {
             RepresentingNode = new UnaryNode() {
                 Child = branch.Develop(),
                 Formula = Formula,
-                TruthValue = TruthValue
+                TruthLabel = TruthLabel
             };
         }
 
         protected void CompleteBranch() {
 
-            RepresentingNode = new CompletionNode() {
-                Formula = Formula,
-                TruthValue = TruthValue
-            };
+            RepresentingNode = new CompletionNode();
+        }
+
+        protected void ContradictBranch() {
+
+            RepresentingNode = new ContradictionNode();
         }
         
         protected abstract void HandleTrueCase(Branch branch);

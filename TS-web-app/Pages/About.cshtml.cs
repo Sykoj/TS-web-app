@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TsWebApp.Pages {
+namespace Ts.App.Pages {
+
     public class AboutModel : PageModel {
         public string Message { get; set; }
 

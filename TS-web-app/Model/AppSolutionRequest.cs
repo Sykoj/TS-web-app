@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TsWebApp.Model {
+namespace Ts.App.Model {
 
-    public class AppSolutionEventRequest {
+    public class AppSolutionRequest {
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

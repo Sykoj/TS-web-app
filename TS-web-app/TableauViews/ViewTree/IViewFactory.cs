@@ -1,6 +1,7 @@
-﻿using Ts.IO;
+﻿using Ts.App.TableauViews.Layout;
+using Ts.IO;
 
-namespace TsWebApp.TableauViews.Layout {
+namespace Ts.App.TableauViews.ViewTree {
 
     public interface IViewFactory<T> where T : ILayoutable {
         T GetView(SolutionNode node);

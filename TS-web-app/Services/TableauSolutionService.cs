@@ -1,15 +1,14 @@
 ﻿using System;
+using Ts.App.Model;
 using Ts.IO;
-using Ts.Solver;
-using TsWebApp.Model;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class TableauSolutionService {
 
-        private Solver TableauSolver { get; set; }
+        private Solver.Solver TableauSolver { get; set; }
 
-        public TableauSolutionService(Solver tableauSolver) {
+        public TableauSolutionService(Solver.Solver tableauSolver) {
             TableauSolver = tableauSolver;
         }
 

@@ -1,7 +1,7 @@
-﻿using TsWebApp.TableauViews.Layout;
+﻿using Ts.App.TableauViews.ViewTree;
 using Ts.IO;
 
-namespace TsWebApp.TableauViews {
+namespace Ts.App.TableauViews.SvgView {
 
     public class SvgViewFactory : IViewFactory<SvgView> {
 

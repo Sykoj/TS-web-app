@@ -1,9 +1,9 @@
 ﻿using Ts.IO;
 
-namespace TsWebApp.Model {
+namespace Ts.App.Model {
 
     public class UnparsedTableauNode {
         public string Formula { get; set; } = string.Empty;
-        public TruthValue TruthLabel { get; set; } = TruthValue.True;
+        public TruthLabel TruthLabel { get; set; } = TruthLabel.True;
     }
 }

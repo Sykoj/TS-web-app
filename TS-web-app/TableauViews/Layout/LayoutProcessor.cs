@@ -1,6 +1,6 @@
-﻿using TsWebApp.TableauViews.ViewTree;
+﻿using Ts.App.TableauViews.ViewTree;
 
-namespace TsWebApp.TableauViews.Layout {
+namespace Ts.App.TableauViews.Layout {
 
     public class LayoutProcessor<T> where T : ILayoutable {
 

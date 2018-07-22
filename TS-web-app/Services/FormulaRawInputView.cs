@@ -1,44 +1,36 @@
-﻿using Ts.IO;
+﻿using Ts.App.Extensions;
+using Ts.App.TableauViews.Visitors;
+using Ts.IO;
 using Ts.IO.Parser;
-using TsWebApp.Extensions;
-using TsWebApp.TableauViews;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public static class FormulaRawInputView {
 
-        public static RawVisitor _rawVisitor = new RawVisitor();
+        public static RawVisitor RawVisitor = new RawVisitor();
 
         public static string GetFormulaView(Formula formula) {
 
-            return formula.Apply(_rawVisitor);
+            return formula.Apply(RawVisitor);
         }
     }
 
     public class RawVisitor : ILayoutableVisitor<string> {
 
-        public string Visit(CompletionClosure completionClosure) {
-            return string.Empty;
-        }
-
         public string Visit(ConjuctionFormula conjuctionFormula) {
-            return $"({conjuctionFormula.LeftFormula.Apply(this)} {Junctions.And} {conjuctionFormula.RightFormula.Apply(this)})";
-        }
-
-        public string Visit(ContradictionClosure contradictionClosure) {
-            return "X";
+            return $"({conjuctionFormula.LeftSubformula.Apply(this)} {Junctions.And} {conjuctionFormula.RightSubformula.Apply(this)})";
         }
 
         public string Visit(DisjunctionFormula disjunctionFormula) {
-            return $"({disjunctionFormula.LeftFormula.Apply(this)} {Junctions.Or} {disjunctionFormula.RightFormula.Apply(this)})";
+            return $"({disjunctionFormula.LeftSubformula.Apply(this)} {Junctions.Or} {disjunctionFormula.RightSubformula.Apply(this)})";
         }
 
         public string Visit(EquivalenceFormula equivalenceFormula) {
-            return $"({equivalenceFormula.LeftFormula.Apply(this)} {Junctions.Ekv} {equivalenceFormula.RightFormula.Apply(this)})";
+            return $"({equivalenceFormula.LeftSubformula.Apply(this)} {Junctions.Ekv} {equivalenceFormula.RightSubformula.Apply(this)})";
         }
 
         public string Visit(ImplicationFormula implicationFormula) {
-            return $"({implicationFormula.LeftFormula.Apply(this)} {Junctions.Imp} {implicationFormula.RightFormula.Apply(this)})";
+            return $"({implicationFormula.LeftSubformula.Apply(this)} {Junctions.Imp} {implicationFormula.RightSubformula.Apply(this)})";
         }
 
         public string Visit(NegationFormula negationFormula) {
@@ -51,9 +43,7 @@ namespace TsWebApp.Services {
 
         public string Visit(Formula formula) {
 
-            if (formula is CompletionClosure completionClosure) return Visit(completionClosure);
             if (formula is ConjuctionFormula conjuctionFormula) return Visit(conjuctionFormula);
-            if (formula is ContradictionClosure contradictionClosure) return Visit(contradictionClosure);
             if (formula is DisjunctionFormula disjunctionFormula) return Visit(disjunctionFormula);
             if (formula is EquivalenceFormula equivalenceFormula) return Visit(equivalenceFormula);
             if (formula is ImplicationFormula implicationFormula) return Visit(implicationFormula);
@@ -63,6 +53,4 @@ namespace TsWebApp.Services {
             return default(string);
         }
     }
-
-
 }

@@ -1,6 +1,6 @@
 ﻿using Ts.IO;
 
-namespace TsWebApp.Utilities {
+namespace Ts.App.Utilities {
 
     public class FormulaValidator : IFormulaVisitor<bool> {
 
@@ -23,7 +23,7 @@ namespace TsWebApp.Utilities {
         }
 
         private bool Validate(BinaryFormula binaryFormula) {
-            return Visit(binaryFormula.LeftFormula) && Visit(binaryFormula.RightFormula);
+            return Visit(binaryFormula.LeftSubformula) && Visit(binaryFormula.RightSubformula);
         }
     }
 }

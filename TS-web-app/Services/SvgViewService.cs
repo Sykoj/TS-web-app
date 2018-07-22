@@ -1,8 +1,8 @@
 ﻿using System;
+using Ts.App.TableauViews.SvgView;
 using Ts.IO;
-using TsWebApp.TableauViews;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class SvgViewService {
         internal string[] GetTextView(SolutionNode solution) {
