@@ -3,27 +3,23 @@ using Ts.IO;
 
 namespace Ts.Solver.AtomicTableaux {
     
-    public static class TabloProvider {
+    internal static class TabloProvider {
 
-        public static AtomicTableau GetAtomicTableau(this Formula formula, TruthValue truthValue) {
+        public static AtomicTableau GetAtomicTableau(this Formula formula, TruthLabel truthLabel) {
             
             switch (formula) {
-                case CompletionClosure closure:
-                    return new CompletionTableau(closure, truthValue);
                 case ConjuctionFormula conjunction:
-                    return new ConjunctionTableau(conjunction, truthValue);
-                case ContradictionClosure contradiction:
-                    return new ContradictionTableau(contradiction, truthValue);
+                    return new ConjunctionTableau(conjunction, truthLabel);
                 case DisjunctionFormula disjunction:
-                    return new DisjunctionTableau(disjunction, truthValue);
+                    return new DisjunctionTableau(disjunction, truthLabel);
                 case EquivalenceFormula equivalence:
-                    return new EquivalenceTableau(equivalence, truthValue);
+                    return new EquivalenceTableau(equivalence, truthLabel);
                 case ImplicationFormula implication:
-                    return new ImplicationTableau(implication, truthValue);
+                    return new ImplicationTableau(implication, truthLabel);
                 case NegationFormula negation:
-                    return new NegationTableau(negation, truthValue);
+                    return new NegationTableau(negation, truthLabel);
                 case VariableFormula variable:
-                    return new VariableTableau(variable, truthValue);
+                    return new VariableTableau(variable, truthLabel);
             }
 
             throw new ArgumentException();

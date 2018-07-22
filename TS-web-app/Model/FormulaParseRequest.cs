@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TsWebApp.Model {
+namespace Ts.App.Model {
 
     public class UnparsedTableauInput {
         

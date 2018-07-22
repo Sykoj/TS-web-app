@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using TsWebApp.Data;
-using TsWebApp.Model;
+using Ts.App.Data;
+using Ts.App.Model;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class EventService {
 
@@ -14,17 +14,17 @@ namespace TsWebApp.Services {
             DbContext = dbContext;
         }
 
-        public async Task<AppSolutionEventRequest> CreateAppSolutionRequest(AppSolutionEventRequest appSolutionEventRequest, ClaimsPrincipal user) {
+        public async Task<AppSolutionRequest> CreateAppSolutionRequest(AppSolutionRequest appSolutionRequest, ClaimsPrincipal user) {
 
-            appSolutionEventRequest.User = (user.Identity.IsAuthenticated) ? user.Identity.Name : "default";
-            var entity = DbContext.AppSolutionRequests.Add(appSolutionEventRequest);
+            appSolutionRequest.User = (user.Identity.IsAuthenticated) ? user.Identity.Name : "default";
+            var entity = DbContext.AppSolutionRequests.Add(appSolutionRequest);
             await DbContext.SaveChangesAsync();
             return entity.Entity;
         }
 
-        internal IQueryable<AppSolutionEventRequest> GetRequestsMadeByUser(string name) {
+        internal IQueryable<AppSolutionRequest> GetRequestsMadeByUser(string name) {
 
-            var serializedSolutions = DbContext.TableauSolutions;
+            var serializedSolutions = DbContext.TableauSerializedSolutions;
             var requests = DbContext.AppSolutionRequests.Where(r => r.User == name);
 
             return from s in serializedSolutions
@@ -33,32 +33,32 @@ namespace TsWebApp.Services {
                 select LoadSolution(r, s);
         }
 
-        private AppSolutionEventRequest LoadSolution(AppSolutionEventRequest request, TableauSolutionSerialized serializedSolution) {
+        private AppSolutionRequest LoadSolution(AppSolutionRequest request, TableauSolutionSerialized serializedSolution) {
 
             var solution = serializedSolution.DeserializeSolution();
             request.TableauSolution = solution;
             return request;
         }
 
-        public AppSolutionEventRequest LoadAppSolutionEventById(int requestId) {
+        public AppSolutionRequest LoadAppSolutionEventById(int requestId) {
             
             var solution = DbContext.AppSolutionRequests.Find(requestId);
-            var serializedSolution = DbContext.TableauSolutions.Find(solution.SolutionId);
+            var serializedSolution = DbContext.TableauSerializedSolutions.Find(solution.SolutionId);
             return LoadSolution(solution, serializedSolution);
         }
 
         public TableauSolution LogTableauSolution(TableauSolution tableauSolution) {
 
             var solutionDb = TableauSolutionSerialized.SerializeSolution(tableauSolution);
-            var loadedSolutionDb = DbContext.TableauSolutions.Add(solutionDb).Entity;
+            var loadedSolutionDb = DbContext.TableauSerializedSolutions.Add(solutionDb).Entity;
             DbContext.SaveChanges();
             tableauSolution.SolutionId = loadedSolutionDb.SolutionId;
             return tableauSolution;
         }
 
-        public TableauSolution GetTableauRequest(int solutionId) {
+        public TableauSolution GetTableauSolution(int solutionId) {
 
-            var solutionDb = DbContext.TableauSolutions.Find(solutionId);
+            var solutionDb = DbContext.TableauSerializedSolutions.Find(solutionId);
             return solutionDb?.DeserializeSolution();
         }
     }

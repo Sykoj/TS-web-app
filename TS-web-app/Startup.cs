@@ -1,21 +1,20 @@
-using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
+using Ts.App.Controllers;
+using Ts.App.Data;
+using Ts.App.Services;
+using Ts.App.Utilities;
 using Ts.IO.JsonSerialization;
-using Ts.Solver;
-using TsWebApp.Controllers;
-using TsWebApp.Data;
-using TsWebApp.Services;
-using TsWebApp.Utilities;
 
-namespace TsWebApp {
+namespace Ts.App {
 
     public class Startup {
 
@@ -68,7 +67,7 @@ namespace TsWebApp {
                 options.Password.RequiredLength = 4;
             });
 
-            services.AddSingleton<Solver>();
+            services.AddSingleton<Solver.Solver>();
             services.AddSingleton<TableauSolutionService>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
@@ -79,6 +78,8 @@ namespace TsWebApp {
             services.AddSingleton<FormulaValidator>();
 
             services
+                .AddSwaggerGen(swagger => swagger.SwaggerDoc("v1", new Info { Title = "Tableau solver API", Version = "v1"}))
+                .AddSession()
                 .AddMvc()
                 .AddJsonOptions(JsonSetup)
                 .AddRazorPagesOptions(options => {
@@ -101,9 +102,9 @@ namespace TsWebApp {
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "Tableau solver API"));
             app.UseAuthentication();
-
             app.UseMvc();
         }
 

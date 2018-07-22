@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using TsWebApp.Exceptions;
-using TsWebApp.Model;
-using TsWebApp.Services;
+using Ts.App.Exceptions;
+using Ts.App.Model;
+using Ts.App.Services;
 
-namespace TsWebApp.Pages.Tableau {
+namespace Ts.App.Pages.Tableau {
 
     public class TableauSolutionModel : PageModel {
 
         public static readonly string SolutionName = typeof(TableauSolution).FullName;
-        public static readonly string RequestName = typeof(AppSolutionEventRequest).FullName;
+        public static readonly string RequestName = typeof(AppSolutionRequest).FullName;
 
         public UnparsedTableauInput ErrorResponseForm { get; set; }
 
@@ -44,7 +44,7 @@ namespace TsWebApp.Pages.Tableau {
                 var tableauSolution = TableauSolutionService.ComputeTableauSolution(tableauInput);
                 EventService.LogTableauSolution(tableauSolution);
 
-                var userRequest = new AppSolutionEventRequest() {                    
+                var userRequest = new AppSolutionRequest() {                    
                     TableauType = TableauSolutionCategorizer.CategorizeTableauSolution(tableauSolution.SolutionNode),
                     ExpectedTableauType = unparsedTableauInput.ExpectedTableauType,
                     SolutionId = tableauSolution.SolutionId
@@ -59,9 +59,6 @@ namespace TsWebApp.Pages.Tableau {
                     new { isSession = true, solutionViewType = SolutionViewType.Text });
             }
             catch (FormResolverException) {
-                return RedirectToPage("../Error");
-            }
-            catch (TableauSolverException) {
                 return RedirectToPage("../Error");
             }
         }

@@ -1,6 +1,6 @@
-﻿using TsWebApp.TableauViews.Layout;
+﻿using Ts.App.TableauViews.Layout;
 
-namespace TsWebApp.TableauViews {
+namespace Ts.App.TableauViews.SvgView {
 
     public class SvgViewOptions : ILayoutOptions<SvgView> {
         public uint HorizontalMargin { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

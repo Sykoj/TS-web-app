@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TS-io", "TS-io\TS-io.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TS-solver", "TS-solver\TS-solver.csproj", "{B87D2C84-F467-48BA-B677-AA72EBFB8070}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ts-io.tests", "Ts-io.tests\Ts-io.tests.csproj", "{6A2E1C24-1959-4A40-A71F-B3C4D8C9EAAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B87D2C84-F467-48BA-B677-AA72EBFB8070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B87D2C84-F467-48BA-B677-AA72EBFB8070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B87D2C84-F467-48BA-B677-AA72EBFB8070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2E1C24-1959-4A40-A71F-B3C4D8C9EAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2E1C24-1959-4A40-A71F-B3C4D8C9EAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2E1C24-1959-4A40-A71F-B3C4D8C9EAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2E1C24-1959-4A40-A71F-B3C4D8C9EAAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

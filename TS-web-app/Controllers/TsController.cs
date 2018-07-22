@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Ts.App.Extensions;
+using Ts.App.Services;
+using Ts.App.Utilities;
 using Ts.IO;
-using TsWebApp.Services;
-using TsWebApp.Extensions;
-using TsWebApp.Utilities;
 
-namespace TsWebApp.Controllers {
+namespace Ts.App.Controllers {
 
     [Route("api/")]
     public class TsController : Controller {
@@ -23,9 +24,9 @@ namespace TsWebApp.Controllers {
         }
 
         [HttpPost("solve-tableau")]
-        public IActionResult GetSolution([FromBody] TableauInput tableauInput) {
+        public IActionResult SolveTableau([FromBody] TableauInput tableauInput) {
 
-            if (tableauInput == null || !tableauInput.Root.Formula.Apply(FormulaValidator)) {
+            if (tableauInput == null || HasValidFormulas(tableauInput)) {
                 return BadRequest("The request could not be understood by the server due to malformed syntax.");
             }
 
@@ -36,14 +37,19 @@ namespace TsWebApp.Controllers {
         }
 
         [HttpGet("solution/{solutionId}")]
-        public IActionResult GetResponse([FromRoute] int solutionId) {
+        public IActionResult GetSolution([FromRoute] int solutionId) {
 
-            var solution = EventService.GetTableauRequest(solutionId);
+            var solution = EventService.GetTableauSolution(solutionId);
             if (solution == null) {
                 return NotFound($"Tableau solution with ID={solutionId} not found.");
             }
 
             return Ok(solution);
+        }
+
+        private bool HasValidFormulas(TableauInput tableauInput) {
+
+            return tableauInput.GetAllNodes().All(tableauInputNode => tableauInputNode.Formula.Apply(FormulaValidator));
         }
     }
 }

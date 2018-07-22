@@ -1,7 +1,7 @@
-﻿using Ts.IO;
-using TsWebApp.Utilities;
+﻿using Ts.App.Utilities;
+using Ts.IO;
 
-namespace TsWebApp.Extensions {
+namespace Ts.App.Extensions {
 
     public static class FormulaExtensions {
 

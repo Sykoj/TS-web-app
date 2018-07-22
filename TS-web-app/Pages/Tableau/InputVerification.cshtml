@@ -1,6 +1,7 @@
 ﻿@page
+@using Ts.App.Pages.Tableau
 @using Ts.IO
-@model TableauSolutionModel
+@model Ts.App.Pages.Tableau.TableauSolutionModel
 @{
     ViewData["Title"] = "TableauSolution";
 }
@@ -11,7 +12,7 @@
 
     @for (var i = 0; i < Model.ErrorResponseForm.FormulaParseRequests.Count; ++i) {
 
-        var isTrue = (Model.ErrorResponseForm.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthValue.True) ? '1' : '0';
+        var isTrue = (Model.ErrorResponseForm.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthLabel.True) ? '1' : '0';
 
         <input type="hidden" name="Formula[@Html.Encode(i)]" value="@Html.Encode(Model.ErrorResponseForm.FormulaParseRequests[i].UnparsedTableauNode.Formula)" />
         <input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)" />

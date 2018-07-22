@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TS_web_app.Pages
+namespace Ts.App.Pages
 {
     public class ErrorAnonModel : PageModel
     {

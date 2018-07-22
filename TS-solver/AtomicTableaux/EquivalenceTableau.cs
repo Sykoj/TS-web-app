@@ -6,9 +6,9 @@ namespace Ts.Solver.AtomicTableaux {
         
         private EquivalenceFormula Equivalence { get; }
         
-        internal EquivalenceTableau(EquivalenceFormula formula, TruthValue truthValue) {
+        internal EquivalenceTableau(EquivalenceFormula formula, TruthLabel truthLabel) {
             Formula = Equivalence = formula;
-            TruthValue = truthValue;
+            TruthLabel = truthLabel;
         }
 
         protected override void HandleTrueCase(Branch branch) {
@@ -16,11 +16,11 @@ namespace Ts.Solver.AtomicTableaux {
             var leftBranch = branch;
             var rigthBranch = branch.GetDeepCopy();
             
-            leftBranch.AddNewFormula(new BranchItem(Equivalence.LeftFormula, TruthValue.True));
-            leftBranch.AddNewFormula(new BranchItem(Equivalence.RightFormula, TruthValue.True));
+            leftBranch.AddNewFormula(new BranchItem(Equivalence.LeftSubformula, TruthLabel.True));
+            leftBranch.AddNewFormula(new BranchItem(Equivalence.RightSubformula, TruthLabel.True));
             
-            rigthBranch.AddNewFormula(new BranchItem(Equivalence.LeftFormula, TruthValue.False));
-            rigthBranch.AddNewFormula(new BranchItem(Equivalence.RightFormula, TruthValue.False));
+            rigthBranch.AddNewFormula(new BranchItem(Equivalence.LeftSubformula, TruthLabel.False));
+            rigthBranch.AddNewFormula(new BranchItem(Equivalence.RightSubformula, TruthLabel.False));
 
             ComputeRepresentingNode(leftBranch, rigthBranch);
         }
@@ -30,11 +30,11 @@ namespace Ts.Solver.AtomicTableaux {
             var leftBranch = branch;
             var rigthBranch = branch.GetDeepCopy();
             
-            leftBranch.AddNewFormula(new BranchItem(Equivalence.LeftFormula, TruthValue.True));
-            leftBranch.AddNewFormula(new BranchItem(Equivalence.RightFormula, TruthValue.False));
+            leftBranch.AddNewFormula(new BranchItem(Equivalence.LeftSubformula, TruthLabel.True));
+            leftBranch.AddNewFormula(new BranchItem(Equivalence.RightSubformula, TruthLabel.False));
             
-            rigthBranch.AddNewFormula(new BranchItem(Equivalence.LeftFormula, TruthValue.False));
-            rigthBranch.AddNewFormula(new BranchItem(Equivalence.RightFormula, TruthValue.True));
+            rigthBranch.AddNewFormula(new BranchItem(Equivalence.LeftSubformula, TruthLabel.False));
+            rigthBranch.AddNewFormula(new BranchItem(Equivalence.RightSubformula, TruthLabel.True));
 
             ComputeRepresentingNode(leftBranch, rigthBranch);        
         }

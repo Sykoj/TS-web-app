@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using TsWebApp.Services;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Ts.App.Services;
 using Ts.IO;
 
-namespace TsWebApp.Pages.Tableau {
+namespace Ts.App.Pages.Tableau {
 
     public class TextViewComponent : ViewComponent {
 

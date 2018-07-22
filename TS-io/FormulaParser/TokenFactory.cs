@@ -2,19 +2,19 @@
 
 namespace Ts.IO.Parser {
     
-    public class TokenFactory {
+    internal class TokenFactory {
         
         private string UnparsedFormula { get; }
         private TokenBounds Bounds { get; }
         internal int End => Bounds.End;
         internal int Start => Bounds.Start;
 
-        public TokenFactory(string unparsedFormula) {
+        internal TokenFactory(string unparsedFormula) {
             UnparsedFormula = unparsedFormula;
             Bounds = new TokenBounds(0, unparsedFormula.Length);
         }
 
-        public TokenFactory(string unparsedFormula, TokenBounds bounds) {
+        internal TokenFactory(string unparsedFormula, TokenBounds bounds) {
             UnparsedFormula = unparsedFormula;
             Bounds = bounds;
         }
@@ -79,35 +79,30 @@ namespace Ts.IO.Parser {
 
             if (bounds.End - bounds.Start == 3) {
 
-                if (UnparsedFormula[bounds.Start] == 'I'
-                    && UnparsedFormula[bounds.Start + 1] == 'M'
-                    && UnparsedFormula[bounds.Start + 2] == 'P') {
+                var substring = UnparsedFormula.Substring(bounds.Start, 3);
+
+                if (substring.Equals(Junctions.Imp)) {
                     return Junctions.Imp;
                 }
 
-                if (UnparsedFormula[bounds.Start] == 'A'
-                    && UnparsedFormula[bounds.Start + 1] == 'N'
-                    && UnparsedFormula[bounds.Start + 2] == 'D') {
+                if (substring.Equals(Junctions.And)) {
                     return Junctions.And;
                 }
 
-                if (UnparsedFormula[bounds.Start] == 'E'
-                    && UnparsedFormula[bounds.Start + 1] == 'K'
-                    && UnparsedFormula[bounds.Start + 2] == 'V') {
+                if (substring.Equals(Junctions.Ekv)) {
                     return Junctions.Ekv;
                 }
 
-                if (UnparsedFormula[bounds.Start] == 'N'
-                    && UnparsedFormula[bounds.Start + 1] == 'O'
-                    && UnparsedFormula[bounds.Start + 2] == 'T') {
+                if (substring.Equals(Junctions.Not)) {
                     return Junctions.Not;
                 }
             }
 
             if (bounds.End - bounds.Start == 2) {
 
-                if (UnparsedFormula[bounds.Start] == 'O'
-                    && UnparsedFormula[bounds.Start + 1] == 'R') {
+                var substring = UnparsedFormula.Substring(bounds.Start, 2);
+
+                if (substring.Equals(Junctions.Or)) {
                     return Junctions.Or;
                 }
             }

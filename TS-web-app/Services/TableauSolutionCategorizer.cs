@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TsWebApp.Model;
+using Ts.App.Model;
 using Ts.IO;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class TableauSolutionCategorizer {
 
@@ -12,7 +12,7 @@ namespace TsWebApp.Services {
             var leaves = GetSolutionTreeLeaves(tableauSolution);
 
             var contradictionLeaves =
-                (from leave in leaves where leave.Formula is ContradictionClosure select leave)
+                (from leave in leaves where leave.GetType() == typeof(ContradictionNode) select leave)
                 .Count();
 
             if (contradictionLeaves == leaves.Count) return TableauType.Contradictionary;

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Ts.App.Exceptions;
+using Ts.App.Model;
 using Ts.IO;
-using TsWebApp.Exceptions;
-using TsWebApp.Model;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class FormResolver {
 
@@ -77,16 +77,16 @@ namespace TsWebApp.Services {
     public class FormRow {
 
         public string Formula { get; set; }
-        public TruthValue TruthLabel { get; set; }
+        public TruthLabel TruthLabel { get; set; }
         public string ErrorResponse { get; set; }
     }
 
     internal static class StringToTruthValueExtension {
 
-        public static TruthValue ConvertFromString(this string converted) {
+        public static TruthLabel ConvertFromString(this string converted) {
 
-            if (converted == "0") return TruthValue.False;
-            if (converted == "1") return TruthValue.True;
+            if (converted == "0") return TruthLabel.False;
+            if (converted == "1") return TruthLabel.True;
             else throw new InvalidEnumArgumentException();
         }
     }

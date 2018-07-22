@@ -1,6 +1,6 @@
 ﻿using Ts.IO;
 
-namespace TsWebApp.Utilities {
+namespace Ts.App.Utilities {
 
     public interface IFormulaVisitor<T> {
 

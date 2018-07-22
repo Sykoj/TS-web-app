@@ -1,11 +1,11 @@
-﻿using TsWebApp.TableauViews;
-using TsWebApp.TableauViews.Layout;
-using TsWebApp.TableauViews.ViewTree;
+﻿using System.Linq;
 using System.Text;
-using System.Linq;
+using Ts.App.TableauViews.Layout;
+using Ts.App.TableauViews.TextView;
+using Ts.App.TableauViews.ViewTree;
 using Ts.IO;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class TextViewService {
 

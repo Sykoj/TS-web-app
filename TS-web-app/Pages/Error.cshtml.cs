@@ -2,7 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TsWebApp.Pages {
+namespace Ts.App.Pages {
+
     public class ErrorModel : PageModel {
         public string RequestId { get; set; }
 

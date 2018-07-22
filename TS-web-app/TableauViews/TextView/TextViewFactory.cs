@@ -1,8 +1,8 @@
-﻿using TsWebApp.TableauViews.Layout;
+﻿using Ts.App.Extensions;
+using Ts.App.TableauViews.ViewTree;
 using Ts.IO;
-using TsWebApp.Extensions;
 
-namespace TsWebApp.TableauViews {
+namespace Ts.App.TableauViews.TextView {
 
     public class TextViewFactory : IViewFactory<TextView> {
 
@@ -10,27 +10,36 @@ namespace TsWebApp.TableauViews {
 
         public TextView GetView(SolutionNode node) {
 
-            string text = node.Formula.Apply(TextFormulaVisitor);
-            string truthValue = (node.GetType() != typeof(CompletionNode)) ? node.TruthValue.GetStringRepresentation() : string.Empty;
+            var representation = string.Empty;
 
-            string representation = text;
-            if (!HasParenthesis(representation) && representation != "X") {
-                representation = $"({representation})";
+            if (node is ContradictionNode) {
+                representation = "X";
+            }
+            else if (node is CompletionNode) {
+            }
+            else {
+                var formulaRepresentation = node.Formula.Apply(TextFormulaVisitor);
+                var truthLabel = node.TruthLabel.GetStringRepresentation();
+
+                if (!HasParenthesis(formulaRepresentation)) {
+                    formulaRepresentation = $"({formulaRepresentation})";
+                }
+
+                representation = $"{truthLabel}{formulaRepresentation}";
             }
 
             return new TextView() {
-                Width = (uint)(representation.Length + truthValue.Length),
+                Width = (uint) representation.Length,
                 Height = 1,
-                Representation = truthValue + representation
+                Representation = representation
             };
         }
 
-        private bool HasParenthesis(string representation) {
+        private static bool HasParenthesis(string representation) {
 
-            if (representation == null || representation == string.Empty) {
+            if (string.IsNullOrEmpty(representation)) {
                 return true;
             }
-
             else {
                 return representation[0] == '(' && representation[representation.Length - 1] == ')';
             }
