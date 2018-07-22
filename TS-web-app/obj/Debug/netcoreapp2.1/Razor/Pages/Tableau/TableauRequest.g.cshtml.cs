@@ -68,7 +68,7 @@ using Ts.App.Pages.Tableau;
             WriteLiteral("\r\n<style>\r\n    #requestForm {\r\n        margin-top: 50px;\r\n    }\r\n</style>\r\n\r\n");
             EndContext();
             BeginContext(247, 2221, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "962f7f50a69d4ce59db463285d5ef4e5", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "602dd75b293746ddbfda8611b8cd0755", async() => {
                 BeginContext(305, 264, true);
                 WriteLiteral(@"
     <div id=""requestForm"">
@@ -193,7 +193,7 @@ WriteAttributeValue("", 1961, Html.Encode(Model.FormulaParseRequests[i].ErrorRes
                 WriteLiteral("\r\n        </table>\r\n    </div>\r\n\r\n    <p><input type=\"button\" id=\"addFormula\" value=\"Add new tableau formula\" onclick=\"addField();\"/></p>\r\n    <p>Expected result: ");
                 EndContext();
                 BeginContext(2248, 158, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "124fabce18c94fd1b7cab6e45727da59", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("select", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ed97b0b566ac465a8732fffad29b7c90", async() => {
                     BeginContext(2391, 6, true);
                     WriteLiteral("\r\n    ");
                     EndContext();

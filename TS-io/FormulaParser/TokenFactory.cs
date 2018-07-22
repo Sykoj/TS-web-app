@@ -100,7 +100,7 @@ namespace Ts.IO.Parser {
 
             if (bounds.End - bounds.Start == 2) {
 
-                var substring = UnparsedFormula.Substring(0, 2);
+                var substring = UnparsedFormula.Substring(bounds.Start, 2);
 
                 if (substring.Equals(Junctions.Or)) {
                     return Junctions.Or;

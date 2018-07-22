@@ -14,11 +14,11 @@ namespace Ts.IO.Parser {
 
             UnparsedFormula = unparsedFormula.RemoveWhitespace();
 
-            if (unparsedFormula.Length == 0) {
+            if (UnparsedFormula.Length == 0) {
                 throw new ParseException("The length of formula is 0. The length of formulas must be greater than 0.");
             }
 
-            Factory = new TokenFactory(unparsedFormula);
+            Factory = new TokenFactory(UnparsedFormula);
         }
 
         internal Parser(TokenFactory factory) {

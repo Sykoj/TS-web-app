@@ -65,7 +65,7 @@ using Ts.App.Model;
             WriteLiteral("        ");
             EndContext();
             BeginContext(315, 762, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dd14a026b8d44369bac043471a64834d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0c0aef64b56347faa40eb8d9fd905823", async() => {
                 BeginContext(334, 89, true);
                 WriteLiteral("\r\n            <div style=\"display: inline-block;\">\r\n                <label>Tableau type: ");
                 EndContext();
