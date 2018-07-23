@@ -3,7 +3,7 @@
 namespace Ts.IO {
 
     /// <summary>
-    /// Prepositional formula in form of labeled ordered tree
+    /// Propositional formula in form of labeled ordered tree
     /// This node represents root of the tree with one formula as child
     /// </summary>
     public abstract class UnaryFormula : Formula {
