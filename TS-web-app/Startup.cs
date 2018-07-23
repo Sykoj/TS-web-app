@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -79,7 +82,24 @@ namespace Ts.App {
             services.AddSingleton<FormulaValidator>();
 
             services
-                .AddSwaggerGen(swagger => swagger.SwaggerDoc("v1", new Info { Title = "Tableau solver API", Version = "v1"}))
+                .AddSwaggerGen(swagger => {
+
+                    swagger.SwaggerDoc("v1",
+                        new Info {
+                            Title = "Tableau solver API",
+                            Version = "v1",
+                            Contact = new Contact() {
+                                Name = "Jakub Sykora",
+                                Email = "jakubsykora@protonmail.com"
+                            }
+                        });
+
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    swagger.IncludeXmlComments(xmlPath);
+
+                    swagger.SchemaFilter<TsControllerSwaggerSchema>();
+                })
                 .AddSession()
                 .AddMvc()
                 .AddJsonOptions(JsonSetup)
