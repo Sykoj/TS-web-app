@@ -80,8 +80,8 @@ namespace Ts.App.Services {
             }
             else if (node is UnaryViewNode<TextView> unaryNode) {
 
-                if (unaryNode.Child.GetType() == typeof(CompletionViewNode<TextView>)
-                    && unaryNode.Child.View == null || unaryNode.Child.View.Representation == string.Empty) {
+                if (unaryNode.Child is CompletionViewNode<TextView> && unaryNode.Child.View == null
+                   || unaryNode.Child.View.Representation == string.Empty) {
                     return;
                 }
 
