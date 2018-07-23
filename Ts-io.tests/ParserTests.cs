@@ -6,6 +6,8 @@ namespace Ts.IO.tests {
     [TestClass]
     public class ParserTests {
 
+        public FormulaFactory FormulaFactory = new FormulaFactory();
+
         [TestMethod]
         public void ParserDoNotThrowParserException() {
 

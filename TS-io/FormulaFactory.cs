@@ -1,11 +1,7 @@
-﻿using Ts.IO.Utilities;
-
-namespace Ts.IO {
-
-    /// <summary>
-    /// Provides functionality to convert possible representations of formula to it's labeled ordered tree representation
-    /// </summary>
-    public static class FormulaFactory {
+﻿namespace Ts.IO {
+    
+    /// <inheritdoc cref="IFormulaFactory"/>
+    public class FormulaFactory : IFormulaFactory {
 
         /// <summary>
         /// Parses and converts input from argument to formula
@@ -13,7 +9,7 @@ namespace Ts.IO {
         /// <exception cref="Parser.ParseException">Thrown if input can't be represented as formula</exception>
         /// <param name="unparsedFormula">String representing formula</param>
         /// <returns>Formula representing the input</returns>
-        public static Formula Parse(string unparsedFormula) {
+        public Formula Parse(string unparsedFormula) {
 
             var parser = new Parser.Parser(unparsedFormula);
             return parser.ParseFormula();

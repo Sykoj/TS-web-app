@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +15,7 @@ using Ts.App.Controllers;
 using Ts.App.Data;
 using Ts.App.Services;
 using Ts.App.Utilities;
+using Ts.IO;
 using Ts.IO.JsonSerialization;
 
 namespace Ts.App {
@@ -68,17 +72,34 @@ namespace Ts.App {
             });
 
             services.AddSingleton<Solver.Solver>();
+            services.AddSingleton<IFormulaFactory, FormulaFactory>();
             services.AddSingleton<TableauSolutionService>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
             services.AddSingleton<TextViewService>();
-            services.AddSingleton<SvgViewService>();
             services.AddTransient<TsController>();
             services.AddSingleton<FormulaValidator>();
 
             services
-                .AddSwaggerGen(swagger => swagger.SwaggerDoc("v1", new Info { Title = "Tableau solver API", Version = "v1"}))
+                .AddSwaggerGen(swagger => {
+
+                    swagger.SwaggerDoc("v1",
+                        new Info {
+                            Title = "Tableau solver API",
+                            Version = "v1",
+                            Contact = new Contact() {
+                                Name = "Jakub Sykora",
+                                Email = "jakubsykora@protonmail.com"
+                            }
+                        });
+
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    swagger.IncludeXmlComments(xmlPath);
+
+                    swagger.SchemaFilter<TsControllerSwaggerSchema>();
+                })
                 .AddSession()
                 .AddMvc()
                 .AddJsonOptions(JsonSetup)
