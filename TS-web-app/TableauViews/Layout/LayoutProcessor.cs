@@ -38,10 +38,10 @@ namespace Ts.App.TableauViews.Layout {
                 (unaryNode.Child.TreeWidth, unaryNode.Child.TreeHeight) = ComputeSizes(unaryNode.Child);
                 subtreeWidth = unaryNode.Child.TreeWidth;
                 subtreeHeight = unaryNode.Child.TreeHeight + VerticalMargin + unaryNode.View.Height;
-            } else if (node is CompletionViewNode<T> completionNode) {
+            } else if (node is CompletionViewNode<T> || node is ContradictionViewNode<T>) {
 
-                subtreeHeight = completionNode.View.Height;
-            }
+                subtreeHeight = node.View.Height;
+            } 
 
             if (node.View.Width > subtreeWidth) {
                 subtreeWidth = node.View.Width;
