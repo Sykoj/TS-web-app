@@ -1,5 +1,5 @@
 ### Parser input
-- Parser accepts string representing prepositional formula defined by inductive rule:
+- Parser accepts string representing propositional formula defined by inductive rule:
      - Each variable is lower case alphabetical character [a-z]
      is formula
      - If *F* and *G* are formulas, then<br>
@@ -11,13 +11,13 @@
       <br>are also formulas
      - Each formula is created by those mentioned rules
  - Examples of formulas:<br>
-     p IMP q<br>
-     p IMP (q IMP p)<br>
-     (p IMP (q IMP p))<br>
-     (p EKV (NOT (NOT p)))<br>
-     (NOT (p OR q)) EKV ((NOT p) AND (NOT q))<br>
-     (p IMP q) EKV ((NOT q) IMP (NOT p))<br>
-     (p IMP (q IMP r)) IMP ((p IMP q) IMP (p IMP r))<br>
+     - p IMP q<br>
+     - p IMP (q IMP p)<br>
+     - (p IMP (q IMP p))<br>
+     - (p EKV (NOT (NOT p)))<br>
+     - (NOT (p OR q)) EKV ((NOT p) AND (NOT q))<br>
+     - (p IMP q) EKV ((NOT q) IMP (NOT p))<br>
+     - (p IMP (q IMP r)) IMP ((p IMP q) IMP (p IMP r))<br>
 - String representing the formula is not space sensitive,<br>
     whitespaces are removed from the string before parsing
 - Parser is case sensitive - junctions must be always uppercase 
