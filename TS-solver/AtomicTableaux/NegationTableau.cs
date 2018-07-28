@@ -6,18 +6,18 @@ namespace Ts.Solver.AtomicTableaux {
         
         private NegationFormula Negation { get; }
         
-        public NegationTableau(NegationFormula formula, TruthValue truthValue) {
+        public NegationTableau(NegationFormula formula, TruthLabel truthLabel) {
             Formula = Negation = formula;
-            TruthValue = truthValue;
+            TruthLabel = truthLabel;
         }
         
         protected override void HandleTrueCase(Branch branch) {
-            branch.AddNewFormula(new BranchItem(Negation.Subformula, TruthValue.GetOpposite()));
+            branch.AddNewFormula(new BranchItem(Negation.Subformula, TruthLabel.GetOpposite()));
             ComputeRepresentingNode(branch);
         }
 
         protected override void HandleFalseCase(Branch branch) {
-            branch.AddNewFormula(new BranchItem(Negation.Subformula, TruthValue.GetOpposite()));
+            branch.AddNewFormula(new BranchItem(Negation.Subformula, TruthLabel.GetOpposite()));
             ComputeRepresentingNode(branch);
         }
     }

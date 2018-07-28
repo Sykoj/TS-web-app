@@ -1,6 +1,6 @@
-﻿using TsWebApp.TableauViews.Layout;
+﻿using Ts.App.TableauViews.Layout;
 
-namespace TsWebApp.TableauViews.ViewTree {
+namespace Ts.App.TableauViews.ViewTree {
     
     public sealed class CompletionViewNode<T> : ViewNode<T> where T : ILayoutable {
 

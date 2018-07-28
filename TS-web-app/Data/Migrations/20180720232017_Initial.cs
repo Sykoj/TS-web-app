@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TsWebApp.Data.Migrations
+namespace Ts.App.Data.Migrations
 {
     public partial class Initial : Migration
     {

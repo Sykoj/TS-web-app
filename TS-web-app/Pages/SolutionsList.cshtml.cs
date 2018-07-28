@@ -1,11 +1,11 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc;
-using TsWebApp.Model;
 using System.Linq;
-using TsWebApp.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Ts.App.Model;
+using Ts.App.Services;
 
-namespace TsWebApp.Pages {
+namespace Ts.App.Pages {
 
     public enum SortOrder {
        Newest, Oldest
@@ -13,7 +13,7 @@ namespace TsWebApp.Pages {
 
     public class SolutionsListModel : PageModel {
 
-        public IQueryable<AppSolutionEventRequest> FilteredUserRequests { get; set; }
+        public IQueryable<AppSolutionRequest> FilteredUserRequests { get; set; }
         public TableauType ExpectedTableauType { get; set; }
         public TableauType TableauType { get; set; }
         public SortOrder SortOrder { get; set; }
@@ -57,7 +57,7 @@ namespace TsWebApp.Pages {
 
     public static class IQueryableExtension {
 
-        public static IQueryable<AppSolutionEventRequest> OrderByTime(this IQueryable<AppSolutionEventRequest> query, SortOrder order) {
+        public static IQueryable<AppSolutionRequest> OrderByTime(this IQueryable<AppSolutionRequest> query, SortOrder order) {
             
             switch(order) {
                 case SortOrder.Newest:

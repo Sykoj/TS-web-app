@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Ts.App.Exceptions;
+using Ts.App.Model;
 using Ts.IO;
 using Ts.IO.Parser;
-using TsWebApp.Exceptions;
-using TsWebApp.Model;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class ConversionService {
-        
+
+        private IFormulaFactory FormulaFactory { get; }
+
+        public ConversionService(IFormulaFactory formulaFactory) {
+            FormulaFactory = formulaFactory;
+        }
+
         public (TableauInput tableauInput, UnparsedTableauInput unparsedModifiedTableauInput)
             ParseTableauInput(UnparsedTableauInput unparsedTableauInput) {
 
@@ -54,12 +60,12 @@ namespace TsWebApp.Services {
 
             var tableauInput = new TableauInput() {
 
-                Root = new TableauInputNode() {
+                TableauRoot = new TableauInputNode() {
                         Formula = parsedTableauNodes[0].Formula,
-                        TruthValue = parsedTableauNodes[0].TruthLabel
+                        TruthLabel = parsedTableauNodes[0].TruthLabel
                     },
                 TheoryAxioms = (from request in parsedTableauNodes.Skip(1)
-                    let axiom = new TableauInputNode() { Formula = request.Formula, TruthValue = request.TruthLabel} select axiom).ToList()
+                    let axiom = new TableauInputNode() { Formula = request.Formula, TruthLabel = request.TruthLabel} select axiom).ToList()
             };
 
             return (tableauInput, new UnparsedTableauInput());

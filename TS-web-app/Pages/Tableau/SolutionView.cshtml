@@ -1,7 +1,8 @@
 ﻿@page
-@using Model
 @using Services
-@model SolutionViewModel
+@using Ts.App.Model
+@using Ts.App.Pages.Tableau
+@model Ts.App.Pages.Tableau.SolutionViewModel
 @{
     ViewData["Title"] = "SolutionView";
 }
@@ -18,10 +19,10 @@
             <th style="min-width:200px"><div class="center"><b>Formula</b></div></th>
             <th style="width:200px"><div class="center"><b>Truth label</b></div></th>
         </tr>
-        @foreach (var formula in Model.AppSolutionEventRequest.TableauSolution.TableauInput.GetAllNodes()) {
+        @foreach (var formula in Model.AppSolutionRequest.TableauSolution.TableauInput.GetAllNodes()) {
             <tr>
                 <td><div class="center">@Html.Encode(FormulaRawInputView.GetFormulaView(formula.Formula))</div></td>
-                <td><div class="center">@Html.Encode(formula.TruthValue)</div></td>
+                <td><div class="center">@Html.Encode(formula.TruthLabel)</div></td>
             </tr>
         }
     </table>
@@ -29,17 +30,17 @@
     <div style="text-align:center">
         <!-- Solution view components -->
         @if (Model.ViewType == SolutionViewType.Text) {
-            @await Component.InvokeAsync("Text", Model.AppSolutionEventRequest.TableauSolution.SolutionNode)
+            @await Component.InvokeAsync("Text", Model.AppSolutionRequest.TableauSolution.SolutionNode)
         }
         @if (Model.ViewType == SolutionViewType.Svg) {
-            @await Component.InvokeAsync("Svg", Model.AppSolutionEventRequest.TableauSolution.SolutionNode)
+            @await Component.InvokeAsync("Svg", Model.AppSolutionRequest.TableauSolution.SolutionNode)
         }
     </div>
 
-    @if (Model.AppSolutionEventRequest.ExpectedTableauType != TableauType.Default) {
+    @if (Model.AppSolutionRequest.ExpectedTableauType != TableauType.Default) {
     <div class="center">
 
-        <p>Expected result: @Html.DisplayFor(m => m.AppSolutionEventRequest.ExpectedTableauType)</p>
-        <p>Current result: @Html.DisplayFor(m => m.AppSolutionEventRequest.TableauType)</p>
+        <p>Expected result: @Html.DisplayFor(m => m.AppSolutionRequest.ExpectedTableauType)</p>
+        <p>Current result: @Html.DisplayFor(m => m.AppSolutionRequest.TableauType)</p>
     </div>
     }

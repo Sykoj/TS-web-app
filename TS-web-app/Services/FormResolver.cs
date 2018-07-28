@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Ts.App.Exceptions;
+using Ts.App.Model;
 using Ts.IO;
-using TsWebApp.Exceptions;
-using TsWebApp.Model;
 
-namespace TsWebApp.Services {
+namespace Ts.App.Services {
 
     public class FormResolver {
 
@@ -29,8 +29,6 @@ namespace TsWebApp.Services {
                     UnparsedTableauNode = new UnparsedTableauNode() {Formula = row.Formula, TruthLabel = row.TruthLabel}
                 }
                 select formulaParseRequest;
-
-            var si = nameof(UnparsedTableauInput.ExpectedTableauType);
 
             if (!(requestForm.TryGetValue($"{nameof(UnparsedTableauInput.ExpectedTableauType)}", out var expectedType) 
                 && Enum.TryParse(typeof(TableauType), expectedType[0], out var tableauExpectedType))) {
@@ -56,11 +54,13 @@ namespace TsWebApp.Services {
             var hasErrorResponse = requestForm.TryGetValue($"ErrorResponse[{index}]", out var errorResponse);
             var hasTruthLabel = requestForm.TryGetValue($"TruthLabel[{index}]", out var truthLabel);
 
-            if (hasFormula && hasErrorResponse && hasTruthLabel) {
+            if (!hasTruthLabel) truthLabel = "off";
+
+            if (hasFormula && hasErrorResponse) {
 
                 formRow = new FormRow() {
                     Formula = formula,
-                    TruthLabel = truthLabel.ToArray()[0].ConvertFromString(),
+                    TruthLabel = ((string) truthLabel).ConvertFromString(),
                     ErrorResponse = errorResponse
                 };
                 return true;
@@ -79,16 +79,16 @@ namespace TsWebApp.Services {
     public class FormRow {
 
         public string Formula { get; set; }
-        public TruthValue TruthLabel { get; set; }
+        public TruthLabel TruthLabel { get; set; }
         public string ErrorResponse { get; set; }
     }
 
     internal static class StringToTruthValueExtension {
 
-        public static TruthValue ConvertFromString(this string converted) {
+        public static TruthLabel ConvertFromString(this string converted) {
 
-            if (converted == "0") return TruthValue.False;
-            if (converted == "1") return TruthValue.True;
+            if (converted == "off") return TruthLabel.False;
+            if (converted == "on") return TruthLabel.True;
             else throw new InvalidEnumArgumentException();
         }
     }

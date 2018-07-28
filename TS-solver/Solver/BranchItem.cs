@@ -5,20 +5,20 @@ namespace Ts.Solver {
     internal struct BranchItem {
         
         private Formula Formula { get; }
-        private TruthValue TruthValue { get; }
+        private TruthLabel TruthLabel { get; }
 
         internal BranchItem(TableauInputNode tableauInputNode) {
             Formula = tableauInputNode.Formula;
-            TruthValue = tableauInputNode.TruthValue;
+            TruthLabel = tableauInputNode.TruthLabel;
         }
 
-        internal BranchItem(Formula formula, TruthValue truthValue) {
+        internal BranchItem(Formula formula, TruthLabel truthLabel) {
             Formula = formula;
-            TruthValue = truthValue;
+            TruthLabel = truthLabel;
         }
 
-        internal (Formula, TruthValue ) GetValueTuple() {
-            return (Formula, TruthValue);
+        internal (Formula, TruthLabel ) GetValueTuple() {
+            return (Formula, TruthLabel);
         }
     }
 }

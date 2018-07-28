@@ -2,6 +2,9 @@
 
 namespace Ts.IO {
     
+    /// <summary>
+    /// Formula representing leaf of the labeled ordered tree which is variable
+    /// </summary>
     public class VariableFormula : Formula {
         
         [JsonProperty("symbol")]
@@ -12,11 +15,9 @@ namespace Ts.IO {
         }
 
         public override bool Equals(object obj) {
-            
-            if (obj is VariableFormula v) {
-                if (v.Symbol == Symbol) return true;
-            }
-            return false;
+
+            if (!(obj is VariableFormula v)) return false;
+            return v.Symbol == Symbol;
         }
 
         public override int GetHashCode() {

@@ -1,11 +1,12 @@
-﻿using TsWebApp.TableauViews.Layout;
+﻿using Ts.App.TableauViews.Layout;
 
-namespace TsWebApp.TableauViews.ViewTree {
+namespace Ts.App.TableauViews.ViewTree {
 
     public abstract class ViewNode<T> where T : ILayoutable {
 
         public T View { get; }
-        public ViewNode(T view) {
+
+        protected ViewNode(T view) {
             View = view;
         }
 

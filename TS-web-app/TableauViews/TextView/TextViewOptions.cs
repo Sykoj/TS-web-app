@@ -1,6 +1,6 @@
-﻿using TsWebApp.TableauViews.Layout;
+﻿using Ts.App.TableauViews.Layout;
 
-namespace TsWebApp.TableauViews {
+namespace Ts.App.TableauViews.TextView {
 
     public class TextViewOptions : ILayoutOptions<TextView> {
 

@@ -1,32 +1,43 @@
 ﻿using Newtonsoft.Json;
 
 namespace Ts.IO {
-    
-    public abstract class BinaryFormula : Formula {
-        
-        [JsonProperty("rightFormula")]
-        public Formula RightFormula { get; }
-        [JsonProperty("leftFormula")]
-        public Formula LeftFormula { get; }
 
-        protected BinaryFormula(Formula leftFormula, Formula rightFormula) {
-            RightFormula = rightFormula;
-            LeftFormula = leftFormula;
+    /// <summary>
+    /// Propositional formula in form of labeled ordered tree
+    /// This node represents root of the tree with two subformulas as childs
+    /// </summary>
+    public abstract class BinaryFormula : Formula {
+
+        /// <summary>
+        /// The subformula representing the right subtree of the labeled tree of the binary formula
+        /// </summary>
+        [JsonProperty("rightSubformula")]
+        public Formula RightSubformula { get; }
+
+        /// <summary>
+        /// The subformula representing the left subtree of the labeled tree of the binary formula
+        /// </summary>
+        [JsonProperty("leftSubformula")]
+        public Formula LeftSubformula { get; }
+
+        protected BinaryFormula(Formula leftSubformula, Formula rightSubformula) {
+            RightSubformula = rightSubformula;
+            LeftSubformula = leftSubformula;
         }
 
         public override bool Equals(object obj) {
 
             if (!(obj is BinaryFormula other)) return false;
-            return RightFormula.Equals(other.RightFormula)
-                   && LeftFormula.Equals(other.LeftFormula);
+            return RightSubformula.Equals(other.RightSubformula)
+                   && LeftSubformula.Equals(other.LeftSubformula);
         }
 
         public override int GetHashCode() {
 
             unchecked {
                 var hash = 27;
-                hash = (13 * hash) + RightFormula.GetHashCode();
-                hash = (13 * hash) + LeftFormula.GetHashCode();
+                hash = (13 * hash) + RightSubformula.GetHashCode();
+                hash = (13 * hash) + LeftSubformula.GetHashCode();
                 return hash;
             }
         }

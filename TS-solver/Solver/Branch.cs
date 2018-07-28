@@ -4,7 +4,7 @@ using Ts.Solver.AtomicTableaux;
 
 namespace Ts.Solver {
     
-    public class Branch {
+    internal class Branch {
 
         private HashSet<Literal> UsedVariables { get; set; } = new HashSet<Literal>();
         private Queue<BranchItem> UndevelopedFormulas { get; set; } = new Queue<BranchItem>();
@@ -12,27 +12,30 @@ namespace Ts.Solver {
 
         internal SolutionNode Develop() {
 
-            var (formula, truthValue) = GetFormulaToDevelop();
-            var atomicTableau = formula.GetAtomicTableau(truthValue);
+            var atomicTableau = GetAtomicTableau();
             atomicTableau.ResolveChildsFrom(this);
             
             return atomicTableau.RepresentingNode;
         }
 
-        private (Formula, TruthValue) GetFormulaToDevelop() {
-            
-            if (ContainsOppositeLiteral()) {
-                return (new ContradictionClosure(), TruthValue.True);
-                
-            } if (UndevelopedFormulas.Count != 0) {
+        private AtomicTableau GetAtomicTableau() {
+
+            if (ContainsOppositeLiteral()) return new ContradictionTableau();
+            var (formula, truthValue) = GetFormulaToDevelop();
+            return formula == null ? new CompletionTableau() : formula.GetAtomicTableau(truthValue);
+        }
+
+        private (Formula, TruthLabel) GetFormulaToDevelop() {
+           
+            if (UndevelopedFormulas.Count != 0) {
                 return UndevelopedFormulas.Dequeue().GetValueTuple();
                 
-            } if (UnusedAxioms.Count != 0) {
-                return UnusedAxioms.Dequeue().GetValueTuple();
-                
-            } else {
-                return (new CompletionClosure(), TruthValue.True);
             }
+            if (UnusedAxioms.Count != 0) {
+                return UnusedAxioms.Dequeue().GetValueTuple();
+            }
+
+            return (null, TruthLabel.False);
         }
 
         internal void AddNewFormula(BranchItem newBranchItem) {

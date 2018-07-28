@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TsWebApp.Data;
+using Ts.App.Data;
 
-namespace TsWebApp.Data.Migrations
+namespace Ts.App.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -184,7 +184,7 @@ namespace TsWebApp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TsWebApp.Data.TableauSolutionSerialized", b =>
+            modelBuilder.Entity("Ts.App.Data.TableauSolutionSerialized", b =>
                 {
                     b.Property<int>("SolutionId")
                         .ValueGeneratedOnAdd()
@@ -198,10 +198,10 @@ namespace TsWebApp.Data.Migrations
 
                     b.HasKey("SolutionId");
 
-                    b.ToTable("TableauSolutions");
+                    b.ToTable("TableauSerializedSolutions");
                 });
 
-            modelBuilder.Entity("TsWebApp.Model.AppSolutionEventRequest", b =>
+            modelBuilder.Entity("Ts.App.Model.AppSolutionRequest", b =>
                 {
                     b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()

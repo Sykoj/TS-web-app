@@ -8,7 +8,7 @@ namespace Ts.Solver {
         public SolutionNode Solve(TableauInput input) {
 
             var initialBranch = new Branch();
-            initialBranch.AddNewFormula(new BranchItem(input.Root));
+            initialBranch.AddNewFormula(new BranchItem(input.TableauRoot));
 
             if (input.TheoryAxioms == null) input.TheoryAxioms = new List<TableauInputNode>();
             

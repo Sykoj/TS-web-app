@@ -6,15 +6,15 @@ namespace Ts.Solver.AtomicTableaux {
         
         private ConjuctionFormula Conjunction { get; }
                         
-        internal ConjunctionTableau(ConjuctionFormula formula, TruthValue truthValue) {
+        internal ConjunctionTableau(ConjuctionFormula formula, TruthLabel truthLabel) {
             Formula = Conjunction = formula;
-            TruthValue = truthValue;
+            TruthLabel = truthLabel;
         }
         
         protected override void HandleTrueCase(Branch branch) {
             
-            branch.AddNewFormula(new BranchItem(Conjunction.RightFormula, TruthValue.True));
-            branch.AddNewFormula(new BranchItem(Conjunction.LeftFormula, TruthValue.True));
+            branch.AddNewFormula(new BranchItem(Conjunction.RightSubformula, TruthLabel.True));
+            branch.AddNewFormula(new BranchItem(Conjunction.LeftSubformula, TruthLabel.True));
 
             ComputeRepresentingNode(branch);
         }
@@ -24,8 +24,8 @@ namespace Ts.Solver.AtomicTableaux {
             var leftBranch = branch;
             var rigthBranch = branch.GetDeepCopy();
 
-            leftBranch.AddNewFormula(new BranchItem(Conjunction.LeftFormula, TruthValue.False));
-            rigthBranch.AddNewFormula(new BranchItem(Conjunction.RightFormula, TruthValue.False));
+            leftBranch.AddNewFormula(new BranchItem(Conjunction.LeftSubformula, TruthLabel.False));
+            rigthBranch.AddNewFormula(new BranchItem(Conjunction.RightSubformula, TruthLabel.False));
 
             ComputeRepresentingNode(leftBranch, rigthBranch);
         }

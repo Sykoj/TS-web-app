@@ -1,12 +1,12 @@
 ﻿using System;
-using TsWebApp.TableauViews.ViewTree;
+using Ts.App.TableauViews.Layout;
 using Ts.IO;
 
-namespace TsWebApp.TableauViews.Layout {
+namespace Ts.App.TableauViews.ViewTree {
 
     public class ViewTreeBuilder<T> where T : ILayoutable {
 
-        ViewNodeFactory<T> ViewNodeFactory { get; }
+        private ViewNodeFactory<T> ViewNodeFactory { get; }
 
         public ViewTreeBuilder(IViewFactory<T> viewFactory) {
             ViewNodeFactory = new ViewNodeFactory<T>(viewFactory);
@@ -20,26 +20,32 @@ namespace TsWebApp.TableauViews.Layout {
                 return CreateViewTree(unaryNode);
             } else if (node is CompletionNode completionNode) {
                 return CreateViewTree(completionNode);
+            } else if (node is ContradictionNode contradictionNode) {
+                return CreateViewTree(contradictionNode);
             }
 
             throw new InvalidOperationException();
         }
 
-        BinaryViewNode<T> CreateViewTree(BinaryNode node) {
+        private BinaryViewNode<T> CreateViewTree(BinaryNode node) {
 
             var rightView = CreateViewTree(node.RightChild);
             var leftView = CreateViewTree(node.LeftChild);
             return ViewNodeFactory.CreateBinaryNode(node, leftView, rightView);
         }
 
-        UnaryViewNode<T> CreateViewTree(UnaryNode node) {
+        public UnaryViewNode<T> CreateViewTree(UnaryNode node) {
 
             var childView = CreateViewTree(node.Child);
             return ViewNodeFactory.CreateUnaryNode(node, childView);
         }
 
-        CompletionViewNode<T> CreateViewTree(CompletionNode node) {
+        public CompletionViewNode<T> CreateViewTree(CompletionNode node) {
             return ViewNodeFactory.CreateCompletionNode(node);
+        }
+
+        public ContradictionViewNode<T> CreateViewTree(ContradictionNode node) {
+            return ViewNodeFactory.CreateContradictionNode(node);
         }
     }
 }

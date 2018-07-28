@@ -1,4 +1,4 @@
-﻿namespace TsWebApp.TableauViews.Layout {
+﻿namespace Ts.App.TableauViews.Layout {
 
     public interface ILayoutOptions<T> where T : ILayoutable {
         uint HorizontalMargin { get; set; }
