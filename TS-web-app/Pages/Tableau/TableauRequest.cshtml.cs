@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Ts.App.Model;
+using Ts.App.Services;
 using Ts.IO;
-using TsWebApp.Model;
-using TsWebApp.Services;
 
-namespace TsWebApp.Pages.Tableau {
+namespace Ts.App.Pages.Tableau {
 
     public class TableauRequestModel : PageModel {
 
@@ -20,7 +20,7 @@ namespace TsWebApp.Pages.Tableau {
         public void OnGet() {
 
             var initialRequest = new FormulaParseRequest() {
-                UnparsedTableauNode = new UnparsedTableauNode() { Formula = string.Empty, TruthLabel = TruthValue.True },
+                UnparsedTableauNode = new UnparsedTableauNode() { Formula = string.Empty, TruthLabel = TruthLabel.False },
                 ErrorResponse = string.Empty
             };
 

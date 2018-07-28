@@ -1,12 +1,11 @@
-﻿using Ts.IO;
+﻿using Ts.App.Utilities;
+using Ts.IO;
 
-namespace TsWebApp.TableauViews {
+namespace Ts.App.TableauViews.Visitors {
 
     public interface ILayoutableVisitor<T> : IFormulaVisitor<T> {
 
-        T Visit(CompletionClosure completionClosure);
         T Visit(ConjuctionFormula conjuctionFormula);
-        T Visit(ContradictionClosure contradictionClosure);
         T Visit(DisjunctionFormula disjunctionFormula);
         T Visit(EquivalenceFormula equivalenceFormula);
         T Visit(ImplicationFormula implicationFormula);

@@ -1,7 +1,7 @@
-﻿using Ts.IO;
-using TsWebApp.TableauViews.ViewTree;
+﻿using Ts.App.TableauViews.Layout;
+using Ts.IO;
 
-namespace TsWebApp.TableauViews.Layout {
+namespace Ts.App.TableauViews.ViewTree {
 
     internal class ViewNodeFactory<T> where T : ILayoutable {
 
@@ -27,6 +27,12 @@ namespace TsWebApp.TableauViews.Layout {
 
             var nodeView = ViewFactory.GetView(node);
             return new CompletionViewNode<T>(nodeView);
+        }
+
+        internal ContradictionViewNode<T> CreateContradictionNode(ContradictionNode node) {
+
+            var nodeView = ViewFactory.GetView(node);
+            return new ContradictionViewNode<T>(nodeView);
         }
     }
 }

@@ -3,6 +3,11 @@ using Newtonsoft.Json.Serialization;
 
 namespace Ts.IO.JsonSerialization{
 
+    /// <summary>
+    /// Binder for types in this assembly. If serializer settings
+    /// enables type name handling, types in this assembly are handled
+    /// without namespace and assembly prefix
+    /// </summary>
     public class TableauJsonBinder : ISerializationBinder {
 
         public virtual Type BindToType(string assemblyName, string typeName) {

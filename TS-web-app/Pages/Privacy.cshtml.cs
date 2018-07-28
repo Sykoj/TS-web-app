@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TsWebApp.Pages {
+namespace Ts.App.Pages {
+
     public class PrivacyModel : PageModel {
         public void OnGet() {
         }

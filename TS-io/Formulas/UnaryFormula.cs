@@ -1,9 +1,16 @@
 ﻿using Newtonsoft.Json;
 
 namespace Ts.IO {
-    
+
+    /// <summary>
+    /// Propositional formula in form of labeled ordered tree
+    /// This node represents root of the tree with one formula as child
+    /// </summary>
     public abstract class UnaryFormula : Formula {
         
+        /// <summary>
+        /// The subformula representing the subtree of the labeled tree of the unary formula
+        /// </summary>
         [JsonProperty("subformula")]
         public Formula Subformula { get; }
 

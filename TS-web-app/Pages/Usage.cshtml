@@ -1,0 +1,32 @@
+﻿@page
+@model UsageModel
+@{
+    ViewData["Title"] = "Usage";
+}
+<h3>Tableau solver for propositional logic</h3>
+<a href="https://en.wikipedia.org/wiki/Method_of_analytic_tableaux#Propositional_logic">Method of analytic tableaux on Wikipedia</a>
+
+<h3>Formula input</h3>
+
+<ul>
+    <li>Parser accepts string representing propositional formula defined by inductive rule:
+        <ul>
+            <li>Each variable is lower case alphabetical character [a-z] is formula</li>
+            <li>If <em>F</em> and <em>G</em> are formulas, then<br> (NOT <em>G</em>) - represents negation<br> (<em>F</em> AND <em>G</em>) - represents conjunction<br> (<em>F</em> OR <em>G</em>) - represents disjunction<br> (<em>F</em> IMP <em>G</em>) - represents implication<br> (<em>F</em> EKV <em>G</em>) - represents equivalence <br>are also formulas</li>
+            <li>Each formula is created by those mentioned rules</li>
+        </ul></li>
+    <br />
+    <li>Examples of formulas:<br>
+        <ul>
+            <li>p IMP q<br></li>
+            <li>p IMP (q IMP p)<br></li>
+            <li>(p IMP (q IMP p))<br></li>
+            <li>(p EKV (NOT (NOT p)))<br></li>
+            <li>(NOT (p OR q)) EKV ((NOT p) AND (NOT q))<br></li>
+            <li>(p IMP q) EKV ((NOT q) IMP (NOT p))<br></li>
+            <li>(p IMP (q IMP r)) IMP ((p IMP q) IMP (p IMP r))<br></li>
+        </ul></li>
+    <br />
+    <li>String representing the formula is not space sensitive,<br> whitespaces are removed from the string before parsing</li>
+    <li>Parser is case sensitive - junctions must be always uppercase</li>
+</ul>

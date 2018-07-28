@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using Ts.App.Model;
 using Ts.IO;
-using TsWebApp.Model;
 
-namespace TsWebApp.Data {
+namespace Ts.App.Data {
 
-    public class TableauSolutionSerialized {
+    public class TableauSolutionSerialized { 
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -38,6 +38,7 @@ namespace TsWebApp.Data {
         }
     }
 
+    // Wrapper used to keep type information about SolutionNode in JSON
     internal class SerializationWrapper {
         [JsonProperty]
         internal SolutionNode SolutionNode { get; set; }

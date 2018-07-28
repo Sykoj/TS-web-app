@@ -6,14 +6,14 @@ namespace Ts.Solver.AtomicTableaux {
         
         private VariableFormula Variable { get; }
         
-        internal VariableTableau(VariableFormula formula, TruthValue truthValue) {
+        internal VariableTableau(VariableFormula formula, TruthLabel truthLabel) {
             Formula = Variable = formula;
-            TruthValue = truthValue;
+            TruthLabel = truthLabel;
         }       
         
         protected override void HandleTrueCase(Branch branch) {
             
-            var literal = new Literal(Variable.Symbol, TruthValue);
+            var literal = new Literal(Variable.Symbol, TruthLabel);
             branch.AddLiteral(literal);
             
             ComputeRepresentingNode(branch);

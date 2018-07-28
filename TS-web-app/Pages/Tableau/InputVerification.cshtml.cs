@@ -1,35 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Ts.Solver;
-using TsWebApp.Controllers;
-using TsWebApp.Exceptions;
-using TsWebApp.Model;
-using TsWebApp.Services;
+using Newtonsoft.Json;
+using Ts.App.Exceptions;
+using Ts.App.Model;
+using Ts.App.Services;
 
-namespace TsWebApp.Pages.Tableau {
+namespace Ts.App.Pages.Tableau {
 
     public class TableauSolutionModel : PageModel {
 
+        public static readonly string SolutionName = typeof(TableauSolution).FullName;
+        public static readonly string RequestName = typeof(AppSolutionRequest).FullName;
+
         public UnparsedTableauInput ErrorResponseForm { get; set; }
 
-        private TsController Controller { get; set; }
-        private ConversionService ConversionService { get; set; }
-        private EventService EventService { get; set; }
-        private Solver TableauSolverService { get; set; }
+        private ConversionService ConversionService { get; }
+        private EventService EventService { get; }
+        private TableauSolutionService TableauSolutionService { get; }
 
         public TableauSolutionModel(
-            TsController controller,
             ConversionService conversionService,
             EventService eventService,
-            Solver tableauSolverService) {
+            TableauSolutionService tableauSolutionService) {
 
-            Controller = controller;
             ConversionService = conversionService;
             EventService = eventService;
-            TableauSolverService = tableauSolverService;
+            TableauSolutionService = tableauSolutionService;
         }
 
-        public IActionResult OnPost() {
+        public async Task<IActionResult> OnPost() {
             
             try {
                 var unparsedTableauInput = FormResolver.ResolveForm(HttpContext.Request.Form);
@@ -40,23 +41,24 @@ namespace TsWebApp.Pages.Tableau {
                     return Page();
                 }
 
-                var tableauSolution = Controller.GetSolution(tableauInput);
+                var tableauSolution = TableauSolutionService.ComputeTableauSolution(tableauInput);
+                EventService.LogTableauSolution(tableauSolution);
 
-                var userRequest = new AppSolutionEventRequest() {                    
+                var userRequest = new AppSolutionRequest() {                    
                     TableauType = TableauSolutionCategorizer.CategorizeTableauSolution(tableauSolution.SolutionNode),
                     ExpectedTableauType = unparsedTableauInput.ExpectedTableauType,
                     SolutionId = tableauSolution.SolutionId
                 };
 
-                var result = EventService.CreateAppSolutionRequest(userRequest, HttpContext.User);
-
+                HttpContext.Session.SetString(SolutionName, JsonConvert.SerializeObject(tableauSolution));
+                HttpContext.Session.SetString(RequestName, JsonConvert.SerializeObject(userRequest));
+                
+                await EventService.CreateAppSolutionRequest(userRequest, HttpContext.User);
+                    
                 return RedirectToPage("SolutionView",
-                    new { requestId = result.RequestId, solutionViewType = SolutionViewType.Text });
+                    new { isSession = true, solutionViewType = SolutionViewType.Text });
             }
             catch (FormResolverException) {
-                return RedirectToPage("../Error");
-            }
-            catch (TableauSolverException) {
                 return RedirectToPage("../Error");
             }
         }

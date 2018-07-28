@@ -6,9 +6,9 @@ namespace Ts.Solver.AtomicTableaux {
         
         private DisjunctionFormula Disjunction { get; }
         
-        internal DisjunctionTableau(DisjunctionFormula formula, TruthValue truthValue) {
+        internal DisjunctionTableau(DisjunctionFormula formula, TruthLabel truthLabel) {
             Formula = Disjunction = formula;
-            TruthValue = truthValue;
+            TruthLabel = truthLabel;
         }
         
         protected override void HandleTrueCase(Branch branch) {
@@ -16,16 +16,16 @@ namespace Ts.Solver.AtomicTableaux {
             var leftBranch = branch;
             var rigthBranch = branch.GetDeepCopy();
             
-            leftBranch.AddNewFormula(new BranchItem(Disjunction.LeftFormula, TruthValue.True));
-            rigthBranch.AddNewFormula(new BranchItem(Disjunction.RightFormula, TruthValue.True));
+            leftBranch.AddNewFormula(new BranchItem(Disjunction.LeftSubformula, TruthLabel.True));
+            rigthBranch.AddNewFormula(new BranchItem(Disjunction.RightSubformula, TruthLabel.True));
             
             ComputeRepresentingNode(leftBranch, rigthBranch);
         }
 
         protected override void HandleFalseCase(Branch branch) {
             
-            branch.AddNewFormula(new BranchItem(Disjunction.LeftFormula, TruthValue.False));
-            branch.AddNewFormula(new BranchItem(Disjunction.RightFormula, TruthValue.False));
+            branch.AddNewFormula(new BranchItem(Disjunction.LeftSubformula, TruthLabel.False));
+            branch.AddNewFormula(new BranchItem(Disjunction.RightSubformula, TruthLabel.False));
 
             ComputeRepresentingNode(branch);
         }

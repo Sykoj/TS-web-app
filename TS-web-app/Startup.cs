@@ -1,20 +1,24 @@
 using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
+using Ts.App.Controllers;
+using Ts.App.Data;
+using Ts.App.Services;
+using Ts.App.Utilities;
+using Ts.IO;
 using Ts.IO.JsonSerialization;
-using Ts.Solver;
-using TsWebApp.Controllers;
-using TsWebApp.Data;
-using TsWebApp.Services;
 
-namespace TsWebApp {
+namespace Ts.App {
 
     public class Startup {
 
@@ -39,9 +43,17 @@ namespace TsWebApp {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("TS-database"))
                 );
-            } else {
+            }
+
+            if (HostingEnvironment.IsDevelopment()) {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("testInMemoryDb")
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("TS-database-dev"))
+                );
+            }
+            else {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseInMemoryDatabase("TS-database-test")
                 );
             }
 
@@ -59,15 +71,36 @@ namespace TsWebApp {
                 options.Password.RequiredLength = 4;
             });
 
-            services.AddSingleton<Solver>();
+            services.AddSingleton<Solver.Solver>();
+            services.AddSingleton<IFormulaFactory, FormulaFactory>();
+            services.AddSingleton<TableauSolutionService>();
             services.AddTransient<EventService>();
             services.AddSingleton<ConversionService>();
             services.AddSingleton<FormResolver>();
             services.AddSingleton<TextViewService>();
-            services.AddSingleton<SvgViewService>();
             services.AddTransient<TsController>();
+            services.AddSingleton<FormulaValidator>();
 
             services
+                .AddSwaggerGen(swagger => {
+
+                    swagger.SwaggerDoc("v1",
+                        new Info {
+                            Title = "Tableau solver API",
+                            Version = "v1",
+                            Contact = new Contact() {
+                                Name = "Jakub Sykora",
+                                Email = "jakubsykora@protonmail.com"
+                            }
+                        });
+
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    swagger.IncludeXmlComments(xmlPath);
+
+                    swagger.SchemaFilter<TsControllerSwaggerSchema>();
+                })
+                .AddSession()
                 .AddMvc()
                 .AddJsonOptions(JsonSetup)
                 .AddRazorPagesOptions(options => {
@@ -90,9 +123,9 @@ namespace TsWebApp {
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(swagger => swagger.SwaggerEndpoint("/swagger/v1/swagger.json", "Tableau solver API"));
             app.UseAuthentication();
-
             app.UseMvc();
         }
 

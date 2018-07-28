@@ -1,6 +1,6 @@
 ﻿@page
-@using Model
 @using Services
+@using Ts.App.Model
 @model SolutionsListModel
 @{
     ViewData["Title"] = "Your solutions";
@@ -42,7 +42,7 @@
                             @foreach (var unparsedTableauNode in request.TableauSolution.TableauInput.GetAllNodes()) {
 
                             <li>
-                                <div>@Html.Encode(unparsedTableauNode.TruthValue)</div>
+                                <div>@Html.Encode(unparsedTableauNode.TruthLabel)</div>
                                 @Html.Encode(FormulaRawInputView.GetFormulaView(unparsedTableauNode.Formula))
                             </li>
                             }
