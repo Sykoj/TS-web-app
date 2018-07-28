@@ -25,13 +25,11 @@
 
             @for (var i = 0; i < Model.FormulaParseRequests.Count; ++i) {
 
-                var isTrue = (Model.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthLabel.True) ? '1' : '0';
+                var hasTruthLabelOnTrue = Model.FormulaParseRequests[i].UnparsedTableauNode.TruthLabel == TruthLabel.True;
 
                 <tr>
                     <td><input id="formulaRow" name="Formula[@Html.Encode(i)]" type="text" value="@Html.Encode(Model.FormulaParseRequests[i].UnparsedTableauNode.Formula)" onchange="eraseErrorResponse(@Html.Encode(i))"></td>
-                    <td style="text-align: center;"><input type="hidden" name="TruthLabel[@Html.Encode(i)]" value="@Html.Encode(isTrue)"><input type="checkbox" onclick="this.previousSibling.value = 1 - this.previousSibling.value" @if (isTrue == '1') {
-                                                                                                                                                                                                                  @Html.Encode("checked = 'checked'")
-                                                                                                                                                                                                              }></td>
+                    <td style="text-align: center;"><input type="checkbox" name="TruthLabel[@Html.Encode(i)]" @if (hasTruthLabelOnTrue) { @Html.Encode("checked") }></td>
                     <td><input type="button" value="Remove formula" onclick="deleteRow(this.parentNode.parentNode)"/></td>
                     <td><input type="text" id="errorRow" name="ErrorResponse[@Html.Encode(i)]" value="@Html.Encode(Model.FormulaParseRequests[i].ErrorResponse)" readonly="readonly"></td>
                 </tr>
@@ -110,14 +108,9 @@
         linksBox.setAttribute("onchange", "eraseErrorResponse(" + (currentIndex - 1) + ")");
         linksBox.setAttribute("value", "");
 
-        var hiddenBox = document.createElement("input");
-        hiddenBox.setAttribute("type", "hidden");
-        hiddenBox.setAttribute("name", "TruthLabel[" + (currentIndex - 1) + "]");
-        hiddenBox.setAttribute("value", "0");
-
         var keywordsBox = document.createElement("input");
         keywordsBox.setAttribute("type", "checkbox");
-        keywordsBox.setAttribute("onclick", "this.previousSibling.value = 1 - this.previousSibling.value");
+        keywordsBox.setAttribute("name", "TruthLabel[" + (currentIndex - 1) + "]");
 
         var removeFormula = document.createElement("input");
         removeFormula.setAttribute("type", "button");
@@ -136,7 +129,6 @@
 
         currentCell = currentRow.insertCell(-1);
         currentRow.setAttribute("style", "text-align:center;");
-        currentCell.appendChild(hiddenBox);
         currentCell.appendChild(keywordsBox);
 
         currentCell = currentRow.insertCell(-1);

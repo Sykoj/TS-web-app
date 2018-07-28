@@ -20,7 +20,7 @@ namespace Ts.App.Pages.Tableau {
         public void OnGet() {
 
             var initialRequest = new FormulaParseRequest() {
-                UnparsedTableauNode = new UnparsedTableauNode() { Formula = string.Empty, TruthLabel = TruthLabel.True },
+                UnparsedTableauNode = new UnparsedTableauNode() { Formula = string.Empty, TruthLabel = TruthLabel.False },
                 ErrorResponse = string.Empty
             };
 

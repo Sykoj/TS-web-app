@@ -54,11 +54,13 @@ namespace Ts.App.Services {
             var hasErrorResponse = requestForm.TryGetValue($"ErrorResponse[{index}]", out var errorResponse);
             var hasTruthLabel = requestForm.TryGetValue($"TruthLabel[{index}]", out var truthLabel);
 
-            if (hasFormula && hasErrorResponse && hasTruthLabel) {
+            if (!hasTruthLabel) truthLabel = "off";
+
+            if (hasFormula && hasErrorResponse) {
 
                 formRow = new FormRow() {
                     Formula = formula,
-                    TruthLabel = truthLabel.ToArray()[0].ConvertFromString(),
+                    TruthLabel = ((string) truthLabel).ConvertFromString(),
                     ErrorResponse = errorResponse
                 };
                 return true;
@@ -85,8 +87,8 @@ namespace Ts.App.Services {
 
         public static TruthLabel ConvertFromString(this string converted) {
 
-            if (converted == "0") return TruthLabel.False;
-            if (converted == "1") return TruthLabel.True;
+            if (converted == "off") return TruthLabel.False;
+            if (converted == "on") return TruthLabel.True;
             else throw new InvalidEnumArgumentException();
         }
     }
