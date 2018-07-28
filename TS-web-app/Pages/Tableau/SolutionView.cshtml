@@ -14,26 +14,24 @@
     }
 </style>
 
-    <table class="center" style="border:1px solid">
+<center>
+<table style="border:1px solid">
         <tr>
-            <th style="min-width:200px"><div class="center"><b>Formula</b></div></th>
-            <th style="width:200px"><div class="center"><b>Truth label</b></div></th>
+            <th><div class="center"><b>Formula</b></div></th>
+            <th><div class="center" style="width: 100px;"><b style="width: 50%;">Truth label</b></div></th>
         </tr>
         @foreach (var formula in Model.AppSolutionRequest.TableauSolution.TableauInput.GetAllNodes()) {
             <tr>
-                <td><div class="center">@Html.Encode(FormulaRawInputView.GetFormulaView(formula.Formula))</div></td>
-                <td><div class="center">@Html.Encode(formula.TruthLabel)</div></td>
+                <td><div style="margin-left: 20px; min-width: 100px; white-space: nowrap;">@Html.Encode(FormulaRawInputView.GetFormulaView(formula.Formula))</div></td>
+                <td><div  style="margin: auto; width: 50%;">@Html.Encode(formula.TruthLabel)</div></td>
             </tr>
         }
     </table>
-
+</center>
     <div style="text-align:center">
         <!-- Solution view components -->
         @if (Model.ViewType == SolutionViewType.Text) {
             @await Component.InvokeAsync("Text", Model.AppSolutionRequest.TableauSolution.SolutionNode)
-        }
-        @if (Model.ViewType == SolutionViewType.Svg) {
-            @await Component.InvokeAsync("Svg", Model.AppSolutionRequest.TableauSolution.SolutionNode)
         }
     </div>
 
