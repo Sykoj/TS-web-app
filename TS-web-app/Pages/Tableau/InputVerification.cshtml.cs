@@ -9,6 +9,11 @@ using Ts.App.Services;
 
 namespace Ts.App.Pages.Tableau {
 
+    /// <summary>
+    /// Receives unparsed tableau request and validates the input
+    /// Returns to request form if input is invalid
+    /// Proceeds to solver and solution view if valid 
+    /// </summary>
     public class TableauSolutionModel : PageModel {
 
         public static readonly string SolutionName = typeof(TableauSolution).FullName;

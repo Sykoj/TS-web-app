@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace Ts.App.Model {
-
+    
     public class UnparsedTableauInput {
         
         public IList<FormulaParseRequest> FormulaParseRequests { get; set; } 
