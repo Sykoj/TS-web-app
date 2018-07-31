@@ -6,6 +6,9 @@ using Ts.IO;
 
 namespace Ts.App.Pages.Tableau {
 
+    /// <summary>
+    /// Page representing input form for tableau solver 
+    /// </summary>
     public class TableauRequestModel : PageModel {
 
         public IList<FormulaParseRequest> FormulaParseRequests { get; set; }

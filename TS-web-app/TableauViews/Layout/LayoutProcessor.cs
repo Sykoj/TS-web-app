@@ -50,12 +50,18 @@ namespace Ts.App.TableauViews.Layout {
             return (subtreeWidth, subtreeHeight);
         }
 
+        /// <summary>
+        /// Calculates size of the left side of accepted node
+        /// as if axis of the node would be in the middle of the node 
+        /// </summary>
+        /// <param name="nodeWidth">Accepted node</param>
+        /// <returns>Size of the left side of the node from axis in the middle</returns>
         public int GetAxisPrefixLength(uint nodeWidth) {
             
             if (nodeWidth == 1) {
                 return 0;
             }
-            else {
+            else { // -1 creates condition that length of the left size is always lower than length of the right size of the node
                 return (int) (nodeWidth / 2) - 1;
             }
         }

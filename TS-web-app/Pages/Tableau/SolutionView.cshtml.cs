@@ -9,6 +9,9 @@ namespace Ts.App.Pages.Tableau {
 
     public enum SolutionViewType { Text, Svg };
 
+    /// <summary>
+    /// Displays tableau solution
+    /// </summary>
     public class SolutionViewModel : PageModel {
         
         public SolutionViewType ViewType { get; set; } 
