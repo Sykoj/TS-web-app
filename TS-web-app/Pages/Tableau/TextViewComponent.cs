@@ -5,6 +5,9 @@ using Ts.IO;
 
 namespace Ts.App.Pages.Tableau {
 
+    /// <summary>
+    /// Component of SolutionView for textual visualization of tableau tree
+    /// </summary>
     public class TextViewComponent : ViewComponent {
 
         private readonly TextViewService _textViewService;

@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ts.App.Model {
 
+    /// <summary>
+    /// Represents application's request for tableau solver, with response
+    /// /// </summary>
     public class AppSolutionRequest {
 
         [Key]
